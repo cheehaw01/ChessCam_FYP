@@ -1,0 +1,9 @@
+.env
+node_modules
+
+# other
+unused
+records/moves/*
+records/positions/*
+!records/moves/.gitkeep
+!records/positions/.gitkeep

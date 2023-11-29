@@ -1,0 +1,102 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+/* bg-body-tertiary */
+.navbar-bg {
+  background-color: #404040;
+}
+
+.navbar-brand {
+  color: #ffffff !important;
+}
+
+.navbar-link {
+  color: #ffffff !important;
+}
+
+.navbar-link.active {
+  color: #c4cfff !important;
+  transform: scale(1.15, 1.15);
+  text-shadow: 0 0 5px #0300b8, 0 0 10px #002fff;
+}
+
+.navbar-link.active:hover {
+  color: #5172f6 !important;
+  transform: scale(1.05, 1.05);
+  text-shadow: 0 0 5px #0300b8, 0 0 10px #002fff, 0 0 15px #3358ff;
+}
+
+.navbar-link:hover {
+  color: #bcbdc1 !important;
+  transform: scale(1.1, 1.1);
+  text-shadow: 0 0 3px #0300b8, 0 0 8px #002fff;
+}
+
+.control-button {
+  transition: 0.2s;
+}
+
+.control-button:hover {
+  transform: scale(1.2, 1.2);
+  box-shadow: 0 0 30px 10px #48abe0;
+}
+
+.control-button:active {
+  transition: 0.1s;
+  transform: scale(1.5, 1.5);
+}
+
+/* bg-primary */
+.player-card {
+  background-color: #bcbdc1 !important;
+}
+
+.game-info-card {
+  background-color: #818286 !important;
+}
+
+.responsive-login {
+  width: 25% !important;
+}
+
+.text-red {
+  color: rgb(211, 0, 0) !important;
+}
+
+.bg-grey-1 {
+  background-color: #bcbdc1 !important;
+}
+
+.bg-grey-2 {
+  background-color: #818286 !important;
+}
+
+.bg-grey-3 {
+  background-color: #847c6a !important;
+}
+
+@media (max-width: 575.98px) {
+  .responsive-login {
+    width: 100% !important;
+  }
+}
+
+.color {
+  color: #404040;
+  color: #847c6a;
+  color: #a68d5d;
+  color: #818286;
+  color: #bcbdc1;
+  color: #ffffff;
+}
