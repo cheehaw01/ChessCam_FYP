@@ -12,6 +12,7 @@ import PlayerTable from "./components/manage-tables/PlayerTable";
 import PairTable from "./components/manage-tables/PairTable";
 import Login from "./components/Login";
 import AdminTable from "./components/manage-tables/AdminTable";
+import PageNotFound from "./components/PageNotFound";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="tournament" element={<TournamentTable />} />
           <Route path="venue" element={<VenueTable></VenueTable>} />
         </Route>
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
   );

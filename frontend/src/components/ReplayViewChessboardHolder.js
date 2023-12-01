@@ -8,6 +8,7 @@ import { StepCountContext } from "./ReplayView";
 function ReplayViewChessboardHolder(props) {
   // add states
   const [position, setPosition] = useState([]);
+  const [firstRender, setFirstRender] = useState(true);
 
   // read and subscribe to contexts
   const gameId = useContext(GameIdContext);
@@ -24,9 +25,12 @@ function ReplayViewChessboardHolder(props) {
         setPosition(res.data);
         console.log(res.data);
         control.setTotalStep(res.data.length - 1);
+        if (firstRender) {
+          setFirstRender(false);
+        }
       })
       .catch((err) => console.log(err));
-  }, [gameId]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [gameId, firstRender]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // render
   return (
