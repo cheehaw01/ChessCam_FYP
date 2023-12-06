@@ -34,6 +34,8 @@ function ReplayView() {
   const [date, setDate] = useState();
   const [whiteId, setWhiteId] = useState();
   const [blackId, setBlackId] = useState();
+  const [whiteTime, setWhiteTime] = useState([["20", "00"]]);
+  const [blackTime, setBlackTime] = useState([["20", "00"]]);
 
   // side effect
   useEffect(() => {
@@ -66,6 +68,25 @@ function ReplayView() {
             return item.player_id;
           });
         console.log(res);
+      })
+      .catch((err) => console.log(err));
+
+    // api call for getting timer records
+    axios
+      .get(
+        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_RECORD_POSITIONS_API_URL}/time/${gameId}`
+      )
+      .then((res) => {
+        setWhiteTime(
+          res.data.map((item) => {
+            return item.white;
+          })
+        );
+        setBlackTime(
+          res.data.map((item) => {
+            return item.black;
+          })
+        );
       })
       .catch((err) => console.log(err));
 
@@ -105,7 +126,10 @@ function ReplayView() {
                 >
                   <Row className="p-1">
                     <ReplayViewPlayerInfoCard title={whiteId}>
-                      <ReplayViewTimer />
+                      <ReplayViewTimer
+                        minute={blackTime[step][0]}
+                        second={blackTime[step][1]}
+                      />
                     </ReplayViewPlayerInfoCard>
                   </Row>
                   <Row className="p-1">
@@ -117,7 +141,10 @@ function ReplayView() {
                   </Row>
                   <Row className="p-1">
                     <ReplayViewPlayerInfoCard title={blackId}>
-                      <ReplayViewTimer />
+                      <ReplayViewTimer
+                        minute={whiteTime[step][0]}
+                        second={whiteTime[step][1]}
+                      />
                     </ReplayViewPlayerInfoCard>
                   </Row>
                 </div>

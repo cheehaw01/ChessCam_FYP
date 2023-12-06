@@ -12,17 +12,15 @@ function ReplayViewTimer(props) {
   const [seconds, setSeconds] = useState(defaultSecond);
 
   // props destructure
-  const { turn, step } = props;
+  const { minute, second } = props;
 
   // side effect
   useEffect(() => {
     // Call API to retrieve the time values
-    console.log(turn);
-    console.log(step);
-    setMinutes(defaultMinute);
-    setSeconds(defaultSecond);
+    setMinutes(minute);
+    setSeconds(second);
     // to be develop
-  }, [turn, step]);
+  }, [minute, second]);
 
   return (
     <div>

@@ -3,6 +3,7 @@ const fs = require("fs");
 const { spawn } = require("child_process");
 
 const filepath = "./temp/live_status.json";
+const detectionProgramFilePath = "./python/simulate_fen.py";
 
 /**
  * Calls a Python script for game detection and stores relevant information in a file.
@@ -17,7 +18,7 @@ const filepath = "./temp/live_status.json";
  */
 const callDetectionPyScript = async (req, res) => {
   // Spawn a Python script for game detection
-  const pythonDetection = spawn("python", ["simulate.py"]);
+  const pythonDetection = spawn("python", [detectionProgramFilePath]);
 
   // Destructure the 'game_id' from the request body
   const { game_id } = req.body;
@@ -43,6 +44,11 @@ const callDetectionPyScript = async (req, res) => {
         message: "Error Writing File",
       });
     }
+  });
+
+  // For debug purpose
+  pythonDetection.stdout.on("data", (data) => {
+    console.log(data.toString());
   });
 
   // Listen for the exit event of the Python script

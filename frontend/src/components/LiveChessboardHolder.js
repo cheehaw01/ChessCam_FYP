@@ -39,8 +39,8 @@ function ChessboardHolder(props) {
     <div className="m-1">
       <Chessboard
         boardWidth={props.width - 200}
-        position={position[length]}
-        // position={position[length]?.fen}
+        // position={position[length]}
+        position={position[length]?.fen}
       />
     </div>
   );

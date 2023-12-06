@@ -7,6 +7,7 @@ const {
   getRecordPosition,
   updateRecordPosition,
   deleteRecordPosition,
+  getRecordTime,
 } = require("../controllers/record_positions");
 
 // Define routes for handling record position-related operations
@@ -16,5 +17,6 @@ router
   .get(getRecordPosition)
   .patch(updateRecordPosition)
   .delete(deleteRecordPosition);
+router.route("/time/:id").get(getRecordTime);
 
 module.exports = router;
