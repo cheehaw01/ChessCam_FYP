@@ -31,7 +31,13 @@ const getRecordPosition = (req, res) => {
 
     // Log the retrieved data and send it as a success response
     console.log(data);
-    return res.status(200).json(data);
+    return res.status(200).json(
+      data.map((item) => {
+        return {
+          fen: item.fen,
+        };
+      })
+    );
   });
 };
 
@@ -168,9 +174,49 @@ const deleteRecordPosition = (req, res) => {
   });
 };
 
+/**
+ * Retrieves recorded time matching position for a specific game ID from a JSON file
+ * and sends them as a JSON response.
+ *
+ * @function
+ * @name getRecordTime
+ * @param {any} req
+ * @param {any} res
+ * @returns {void}
+ */
+const getRecordTime = (req, res) => {
+  // Extract the game ID from the request parameters
+  const { id } = req.params;
+
+  // Construct the file path based on the game ID
+  const filepath = fileDirectory + `record_${id}.json`;
+
+  // Read the JSON file and send the data as a JSON response
+  jsonReader(filepath, (err, data) => {
+    // Handle read errors
+    if (err) {
+      console.log(err);
+      // Send a server error response if reading the file encounters an issue
+      return res.status(500).json([]);
+    }
+
+    // Log the retrieved data and send it as a success response
+    console.log(data);
+    return res.status(200).json(
+      data.map((item) => {
+        return {
+          white: item.white,
+          black: item.black,
+        };
+      })
+    );
+  });
+};
+
 module.exports = {
   getRecordPosition,
   createRecordPosition,
   updateRecordPosition,
   deleteRecordPosition,
+  getRecordTime,
 };

@@ -37,8 +37,8 @@ function ReplayViewChessboardHolder(props) {
     <div className="m-1">
       <Chessboard
         boardWidth={props.width - 200}
-        position={position[control.step]}
-        // position={position[control.step]?.fen}
+        // position={position[control.step]}
+        position={position[control.step]?.fen}
       />
     </div>
   );

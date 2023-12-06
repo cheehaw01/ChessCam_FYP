@@ -2,7 +2,7 @@ import React from "react";
 
 function PageNotFound() {
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 pb-5 responsive-login-container bg-grey-0 overflow-hidden">
+    <div className="d-flex justify-content-center align-items-center vh-100 pb-5 responsive-login-container bg-grey-0">
       <div className="p-3 mb-5 rounded-3 responsive-login bg-grey-1">
         <span
           className="d-flex justify-content-center"
