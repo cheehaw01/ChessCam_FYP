@@ -3,10 +3,10 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/Row";
 import Image from "react-bootstrap/Image";
-import backButtonImg from "../assets/back-button.png";
-import backwardButtonImg from "../assets/backward-button.png";
-import forwardButtonImg from "../assets/forward-button.png";
-import nextButtonImg from "../assets/next-button.png";
+import backButtonImg from "../assets/back-button-bg.png";
+import backwardButtonImg from "../assets/backward-button-bg.png";
+import forwardButtonImg from "../assets/forward-button-bg.png";
+import nextButtonImg from "../assets/next-button-bg.png";
 import { StepCountContext } from "./ReplayView";
 
 // Replay Page Controller
@@ -43,7 +43,7 @@ function ReplayController() {
       >
         <Col xs={{ span: 3 }} md={{ span: 1, offset: 4 }}>
           <Image
-            className="control-button"
+            className="control-button rounded-2"
             src={backButtonImg}
             width="30%"
             onClick={backButtonHandler}
@@ -51,7 +51,7 @@ function ReplayController() {
         </Col>
         <Col xs={{ span: 3 }} md={{ span: 1 }}>
           <Image
-            className="control-button"
+            className="control-button rounded-2"
             src={backwardButtonImg}
             width="30%"
             onClick={backwardButtonHandler}
@@ -59,7 +59,7 @@ function ReplayController() {
         </Col>
         <Col xs={{ span: 3 }} md={{ span: 1 }}>
           <Image
-            className="control-button"
+            className="control-button rounded-2"
             src={forwardButtonImg}
             width="30%"
             onClick={forwardButtonHandler}
@@ -67,7 +67,7 @@ function ReplayController() {
         </Col>
         <Col xs={{ span: 3 }} md={{ span: 1 }}>
           <Image
-            className="control-button"
+            className="control-button rounded-2"
             src={nextButtonImg}
             width="30%"
             onClick={nextButtonHandler}

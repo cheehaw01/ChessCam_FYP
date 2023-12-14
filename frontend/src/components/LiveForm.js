@@ -138,7 +138,7 @@ function LiveForm() {
         liveContext.setCurDate(curDate);
 
         // Reset Live Timer
-        formContext.setTimerResetTrigger(true);
+        formContext.handlePostTimeApiCall(3);
 
         // Reset Temp Live Position
         axios
@@ -154,6 +154,16 @@ function LiveForm() {
 
         // Reset Temp Live Move
         // to be develop
+
+        // Create Input Instruction
+        axios
+          .post(
+            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_INPUT_API_URL}`
+          )
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => console.log(err));
 
         // Create game
         axios

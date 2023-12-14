@@ -50,6 +50,16 @@ function LiveStopModal() {
               })
               .catch((err) => console.log(err));
 
+            // Reset Input Instruction
+            axios
+              .delete(
+                `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_INPUT_API_URL}`
+              )
+              .then((res) => {
+                console.log(res.data);
+              })
+              .catch((err) => console.log(err));
+
             // Update game
             axios
               .patch(
@@ -142,7 +152,7 @@ function LiveStopModal() {
               });
 
             // Stop Live Timer
-            modalContext.setTimerStatus(0);
+            modalContext.handlePostTimeApiCall(0);
 
             // Save Record - position
             axios

@@ -46,4 +46,4 @@ function ChessboardHolder(props) {
   );
 }
 
-export default React.memo(ChessboardHolder);
+export default ChessboardHolder;

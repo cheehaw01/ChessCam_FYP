@@ -6,11 +6,15 @@ import Col from "react-bootstrap/Col";
 import { LiveContext, LiveFormContext, LiveModalContext } from "./Live";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import LiveTimerController from "./LiveTimerController";
 
 // Container that hold input elements for live
-function LiveController() {
+function LiveController(props) {
   // add states
   const [auth, setAuth] = useState(false);
+
+  // destructure props
+  const { timerStatus, setDefaultTimerValues, handlePostTimeApiCall } = props;
 
   // read and subsribe to contexts
   const liveContext = useContext(LiveContext);
@@ -58,14 +62,23 @@ function LiveController() {
   return (
     <Container fluid>
       <Row
-        className="m-2 p-3 border border-2 rounded-2 border-secondary"
+        className="m-2 border border-2 rounded-2 border-secondary"
         style={{ background: "#818286" }}
       >
-        <Col
-          className="text-center"
-          xs={{ span: 3 }}
-          md={{ span: 2, offset: 5 }}
-        >
+        <Col lg={3} sm={5} className="m-2 p-2">
+          {auth ? (
+            <LiveTimerController
+              auth={auth}
+              timerStatus={timerStatus}
+              setDefaultTimerValues={setDefaultTimerValues}
+              handlePostTimeApiCall={handlePostTimeApiCall}
+            />
+          ) : (
+            <></>
+          )}
+        </Col>
+
+        <Col className="text-center p-2">
           {auth ? (
             <React.Fragment>
               {liveContext.live === false && (
@@ -112,6 +125,7 @@ function LiveController() {
             </React.Fragment>
           )}
         </Col>
+        <Col lg={3} sm={5}></Col>
       </Row>
     </Container>
   );

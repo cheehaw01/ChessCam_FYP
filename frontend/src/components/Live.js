@@ -35,34 +35,18 @@ function Live() {
   const [showStopModal, setShowStopModal] = useState(false);
   const [curGameId, setCurGameId] = useState();
   const [timerStatus, setTimerStatus] = useState(0);
-  const [timerResetTrigger, setTimerResetTrigger] = useState(false);
+  const [defaultTimerValues, setDefaultTimerValues] = useState(["20", "00"]);
+  const [auth, setAuth] = useState(false);
 
   // cross-site Access-Control requests with credentials
   axios.defaults.withCredentials = true;
 
-  // function - toggle timer
-  const handleTimerClick = () => {
-    // 0 - both stop
-    // 1 - black start, white stop
-    // 2 - white start, black stop
-    switch (timerStatus) {
-      case 0:
-        setTimerStatus(1);
-        break;
-      case 1:
-        setTimerStatus(2);
-        break;
-      case 2:
-        setTimerStatus(1);
-        break;
-      default:
-        break;
-    }
-
-    // api call for changing the timer status
+  // function - call api to update input instruction
+  const handleInputApiCall = () => {
+    // Call API for updating input instruction
     axios
-      .post(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_TIMER_API_URL}/${timerStatus}`
+      .patch(
+        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_INPUT_API_URL}/1`
       )
       .then((res) => {
         console.log(res.data);
@@ -70,24 +54,83 @@ function Live() {
       .catch((err) => console.log(err));
   };
 
+  // function - call api to update time values
+  const handlePostTimeApiCall = (turn) => {
+    if (auth) {
+      // Api call for changing the timer status
+      axios
+        .post(
+          `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_TIMER_API_URL}/${turn}`
+        )
+        .then((res) => {
+          console.log(res.data);
+          if (turn === 3) {
+            // Api call for changing the time value
+            axios
+              .post(
+                `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_TIMER_API_URL}/${turn}`,
+                turn === 3
+                  ? {
+                      time: defaultTimerValues,
+                    }
+                  : {}
+              )
+              .then((res) => {
+                console.log(res.data);
+              })
+              .catch((err) => console.log(err));
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  // function - toggle timer
+  const handleTimerClick = () => {
+    // 0 - both stop, can start white
+    // 1 - black start, white stop
+    // 2 - white start, black stop
+    // 3 - both stop, can start white
+    // 4 - both stop, can start black
+    switch (timerStatus) {
+      case 3:
+      case 0:
+        handleInputApiCall();
+        handlePostTimeApiCall(1);
+        break;
+      case 4:
+      case 1:
+        handleInputApiCall();
+        handlePostTimeApiCall(2);
+        break;
+      case 2:
+        handleInputApiCall();
+        handlePostTimeApiCall(1);
+        break;
+      default:
+        break;
+    }
+  };
+
   // function - handle the white side timer click
   const handleWhiteTimerClick = () => {
-    return timerStatus === 0 || timerStatus === 2
+    return timerStatus === 0 || timerStatus === 2 || timerStatus === 3
       ? handleTimerClick
       : undefined;
   };
 
   // function - handle the black side timer click
   const handleBlackTimerClick = () => {
-    return timerStatus !== 0 && timerStatus === 1
+    return timerStatus !== 0 && (timerStatus === 1 || timerStatus === 4)
       ? handleTimerClick
       : undefined;
   };
 
   // side effect
   useEffect(() => {
-    // Keep track the status of live for every 1 second
+    // Keep track the status of live and status of timer for every 1 second
     const liveCheck = setInterval(() => {
+      // Call API to read live status
       axios
         .get(
           `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_STATUS_API_URL}`
@@ -96,9 +139,36 @@ function Live() {
           setLive(res.data.onLive);
         })
         .catch((err) => console.log(err));
+
+      // Call API to read the live time values
+      axios
+        .get(
+          `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_TIMER_API_URL}`
+        )
+        .then((res) => {
+          setTimerStatus(res.data.turn);
+        })
+        .catch((err) => console.log(err));
     }, 1000);
 
-    // retrieve information if a game is on live
+    // Authentication API call
+    axios
+      .get(
+        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_AUTHENTICATION_API_URL}`
+      )
+      .then((res) => {
+        if (res.data.success === 1) {
+          setAuth(true);
+        } else {
+          setAuth(false);
+        }
+      })
+      .catch((err) => {
+        setAuth(false);
+        console.log(err);
+      });
+
+    // API to retrieve information if a game is on live
     axios
       .get(
         `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_STATUS_API_URL}`
@@ -107,7 +177,7 @@ function Live() {
         setLive(res.data.onLive);
         setCurGameId(res.data.game_id);
 
-        // api call to get the game information
+        // Api call to get the game information
         axios
           .get(
             `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_GAMES_API_URL}/${res.data.game_id}`
@@ -120,7 +190,7 @@ function Live() {
           })
           .catch((err) => console.log(err));
 
-        // api call to get the player pair information
+        // Api call to get the player pair information
         axios
           .get(
             `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PAIRS_API_URL}/${res.data.game_id}`
@@ -193,15 +263,15 @@ function Live() {
                   <LivePlayerInfoCard
                     title={curWhitePlayerId}
                     timerClick={handleBlackTimerClick}
+                    clickable={
+                      timerStatus !== 0 &&
+                      timerStatus !== 2 &&
+                      timerStatus !== 3 &&
+                      (timerStatus === 1 || timerStatus === 4)
+                    }
+                    auth={auth}
                   >
-                    <LiveTimer
-                      status={timerStatus === 1}
-                      turn={timerStatus}
-                      setTimerStatus={setTimerStatus}
-                      timerResetTrigger={timerResetTrigger}
-                      setTimerResetTrigger={setTimerResetTrigger}
-                      side="black"
-                    />
+                    <LiveTimer side="black" />
                   </LivePlayerInfoCard>
                   {/* </button> */}
                 </Row>
@@ -210,7 +280,7 @@ function Live() {
                     tournament_id={curTournamentId}
                     venue_id={curVenueId}
                     date={curDate}
-                    setTimerResetTrigger={setTimerResetTrigger}
+                    handlePostTimeApiCall={handlePostTimeApiCall}
                   />
                 </Row>
                 <Row className="p-1">
@@ -218,15 +288,14 @@ function Live() {
                   <LivePlayerInfoCard
                     title={curBlackPlayerId}
                     timerClick={handleWhiteTimerClick}
+                    clickable={
+                      timerStatus === 0 ||
+                      timerStatus === 2 ||
+                      timerStatus === 3
+                    }
+                    auth={auth}
                   >
-                    <LiveTimer
-                      status={timerStatus === 2}
-                      turn={timerStatus}
-                      setTimerStatus={setTimerStatus}
-                      timerResetTrigger={timerResetTrigger}
-                      setTimerResetTrigger={setTimerResetTrigger}
-                      side="white"
-                    />
+                    <LiveTimer side="white" />
                   </LivePlayerInfoCard>
                   {/* </button> */}
                 </Row>
@@ -250,7 +319,7 @@ function Live() {
           value={{
             showForm: showForm,
             setShowForm: setShowForm,
-            setTimerResetTrigger: setTimerResetTrigger,
+            handlePostTimeApiCall: handlePostTimeApiCall,
           }}
         >
           <LiveModalContext.Provider
@@ -259,10 +328,15 @@ function Live() {
               setShowStopModal: setShowStopModal,
               curGameId: curGameId,
               setCurGameId: setCurGameId,
-              setTimerStatus: setTimerStatus,
+              handlePostTimeApiCall: handlePostTimeApiCall,
             }}
           >
-            <LiveController />
+            <LiveController
+              auth={auth}
+              timerStatus={timerStatus}
+              setDefaultTimerValues={setDefaultTimerValues}
+              handlePostTimeApiCall={handlePostTimeApiCall}
+            />
             <LiveForm />
             <LiveStopModal />
           </LiveModalContext.Provider>
