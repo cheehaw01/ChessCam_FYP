@@ -5,7 +5,7 @@ import Card from "react-bootstrap/Card";
 // Card for Live Player Information
 function LivePlayerInfoCard(props) {
   // destructure props
-  const { title, children, timerClick } = props;
+  const { title, children, timerClick, clickable, auth } = props;
 
   // add states
   const [playerName, setPlayerName] = useState("-");
@@ -29,7 +29,10 @@ function LivePlayerInfoCard(props) {
   // render
   return (
     <React.Fragment>
-      <Card className="player-card" onClick={timerClick()}>
+      <Card
+        className={auth && clickable ? "player-card-clickable" : "player-card"}
+        onClick={timerClick()}
+      >
         <Card.Body>
           <Card.Title>
             <h1>{playerName}</h1>

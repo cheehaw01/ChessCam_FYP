@@ -16,9 +16,10 @@ import json
 # Files path (follow nodejs file path)
 POSITION_FILENAME = './temp/live_positions.json'
 TIMER_FILENAME = './temp/live_timer.json'
+INPUT_FILENAME = './temp/input.json'
 
 def updateLivePosition(fen_string: str):
-  """Gets and prints the spreadsheet's header columns
+  """Update the contents of `live_position.json` file
 
     Parameters
     ----------
@@ -47,3 +48,28 @@ def updateLivePosition(fen_string: str):
     data.append(newLiveData)
     file.seek(0)
     json.dump(data, file, indent=2)
+
+
+def readTimerButtonInput():
+  """Read the input instruction in `input.json` file
+
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    timerButton : bool
+    """
+
+  # Open the input instruction file to read and update the data
+  with open(INPUT_FILENAME, "r+") as file:
+    data = json.load(file)
+    input_data = data['timerButton']
+    if input_data:
+      data['timerButton'] = False
+      file.seek(0)
+      json.dump(data, file, indent=2)
+
+  # return value with key 'timerButton'
+  return input_data

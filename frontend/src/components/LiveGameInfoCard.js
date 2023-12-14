@@ -15,11 +15,11 @@ function LiveGameInfoCard(props) {
   const [venueName, setVenueName] = useState("-");
 
   // props destructures
-  const { tournament_id, venue_id, date, setTimerResetTrigger } = props;
+  const { tournament_id, venue_id, date, handlePostTimeApiCall } = props;
 
   // custom hooks - useLongPress
   const longPress = useLongPress(() => {
-    setTimerResetTrigger(true);
+    handlePostTimeApiCall(3);
   }, 1000);
 
   // side effect

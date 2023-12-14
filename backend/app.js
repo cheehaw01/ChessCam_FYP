@@ -1,10 +1,11 @@
 require("dotenv").config();
+const path = require("path");
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
-// routes
+// Routes
 const games = require("./routes/games");
 const tournaments = require("./routes/tournaments");
 const venues = require("./routes/venues");
@@ -20,8 +21,9 @@ const detection = require("./routes/detection");
 const authentication = require("./routes/authentication");
 const admins = require("./routes/admins");
 const liveTimer = require("./routes/live_timer");
+const input = require("./routes/input");
 
-// middleware
+// Middleware
 app.use(
   cors({
     origin: `http://${process.env.ORIGIN_IP}:${process.env.ORIGIN_PORT}`,
@@ -31,6 +33,9 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
+
+// Have Node serve the files for our built React app
+app.use(express.static(path.resolve(__dirname, "../frontend/build")));
 
 // API
 app.use("/api/v1/games", games);
@@ -48,16 +53,23 @@ app.use("/api/v1/detection", detection);
 app.use("/api/v1/authentication", authentication);
 app.use("/api/v1/admins", admins);
 app.use("/api/v1/live_timer", liveTimer);
+app.use("/api/v1/input", input);
 
-app.get("/", (req, res) => {
-  res.send("Home Page");
+// All other GET requests not handled before will return our React app
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../frontend/build", "index.html"));
 });
 
-// error handler
+// Error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something wrong!");
 });
+
+// Instantiate CountDownTimerPair and initiate the timer
+const CountDownTimerPair = require("./timer/CountDownTimerPair");
+const pairTimer = new CountDownTimerPair();
+pairTimer.initiateTimer();
 
 const port = process.env.APP_PORT || 5000;
 

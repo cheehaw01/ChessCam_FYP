@@ -92,13 +92,10 @@ const updateTimerStatus = (req, res) => {
       return res.status(500).json([]);
     }
 
-    // Update timer data based on the provided turn and time
-    // 1 - black timer start
-    // 2 - white timer start
-    if (turn === "1" && time !== undefined) {
-      data.black = time;
-    } else if (turn === "2" && time !== undefined) {
+    // Update timer data time is provided
+    if (time !== undefined) {
       data.white = time;
+      data.black = time;
     }
 
     // Update the turn value to an integer
