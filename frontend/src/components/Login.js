@@ -82,13 +82,28 @@ function Login() {
           setName(res.data.name);
         } else {
           setAuth(false);
+
+          // api call for number of admin
+          axios
+            .get(
+              `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_ADMINS_API_URL}/count`
+            )
+            .then((res) => {
+              if (res.data.data < 1) {
+                // navigate to register page if no admin
+                navigate("/register");
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         }
       })
       .catch((err) => {
         setAuth(false);
         console.log(err);
       });
-  }, [loggedIn]);
+  }, [loggedIn, navigate]);
 
   // render
   return (

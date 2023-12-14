@@ -3,6 +3,44 @@ const bcrypt = require("bcrypt");
 const salt = 10;
 
 /**
+ * This function is responsible for retrieving number of admin data from the
+ * database and returning it as a JSON response.
+ *
+ * @async
+ * @function
+ * @name getAdminCount
+ * @param {any} req
+ * @param {any} res
+ * @returns {Promise<any>}
+ */
+const getAdminCount = async (req, res) => {
+  try {
+    // Get number of row from the 'admin' table
+    const [rows, fields] = await pool.query(
+      `SELECT COUNT(*) AS count FROM admin`
+    );
+
+    // Log retrieved data for debugging purposes
+    console.log(rows[0]["count"]);
+
+    // Return a JSON response with the retrieved number of administrators
+    return res.status(200).json({
+      success: 1,
+      data: rows[0]["count"],
+    });
+  } catch (error) {
+    // Log any errors that occurred during the database query
+    console.log(error);
+
+    // Return a JSON response indicating a server error
+    return res.status(500).json({
+      success: 0,
+      message: "something has broken",
+    });
+  }
+};
+
+/**
  * This function is responsible for retrieving all admin data from the
  * database and returning it as a JSON response.
  *
@@ -260,6 +298,7 @@ const deleteAdmin = async (req, res) => {
 };
 
 module.exports = {
+  getAdminCount,
   getAllAdmins,
   getAdmin,
   updateAdmin,
