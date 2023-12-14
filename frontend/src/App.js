@@ -13,6 +13,7 @@ import PairTable from "./components/manage-tables/PairTable";
 import Login from "./components/Login";
 import AdminTable from "./components/manage-tables/AdminTable";
 import PageNotFound from "./components/PageNotFound";
+import Register from "./components/Register";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="replay" element={<Replay />}></Route>
         <Route path="replay/:id" element={<ReplayView />}></Route>
         <Route path="login" element={<Login />}></Route>
+        <Route path="register" element={<Register />}></Route>
         <Route path="manage" element={<Manage />}>
           <Route path="admin" element={<AdminTable />} />
           <Route path="game" element={<GameTable />} />
