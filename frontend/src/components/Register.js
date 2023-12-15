@@ -25,24 +25,40 @@ function Register() {
 
   // function - handle form submission
   const onSubmit = (data) => {
-    // authentication api
+    // api call for number of admin
     axios
-      .post(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_AUTHENTICATION_API_URL}/register`,
-        data
+      .get(
+        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_ADMINS_API_URL}/count`
       )
       .then((res) => {
-        if (res.data.success === 0) {
-          setFailMsg(res.data.message);
+        // only allow register with this method if no admin exist
+        if (res.data.data < 1) {
+          // authentication api for register
+          axios
+            .post(
+              `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_AUTHENTICATION_API_URL}/register`,
+              data
+            )
+            .then((res) => {
+              if (res.data.success === 0) {
+                setFailMsg(res.data.message);
+                setCreateFail(true);
+                return;
+              }
+              console.log(res);
+              setCreateFail(false);
+              navigate("/login");
+            })
+            .catch((err) => {
+              setCreateFail(true);
+              console.log(err);
+            });
+        } else {
+          setFailMsg("Not allow to register, admin exist");
           setCreateFail(true);
-          return;
         }
-        console.log(res);
-        setCreateFail(false);
-        navigate("/login");
       })
       .catch((err) => {
-        setCreateFail(true);
         console.log(err);
       });
   };

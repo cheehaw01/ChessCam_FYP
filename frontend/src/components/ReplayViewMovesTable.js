@@ -36,7 +36,7 @@ function ReplayViewMovesTable(props) {
       selector: (row) => row.step,
       conditionalCellStyles: [
         {
-          when: (row) => row.step === Math.floor(control.step / 2) + 1,
+          when: (row) => row.step === Math.floor((control.step - 1) / 2) + 1,
           style: {
             backgroundColor: "#cccccc",
             transform: "scale(1.1, 1.1)",
@@ -51,8 +51,8 @@ function ReplayViewMovesTable(props) {
       conditionalCellStyles: [
         {
           when: (row) =>
-            row.step === Math.floor(control.step / 2) + 1 &&
-            control.step % 2 === 0,
+            row.step === Math.floor((control.step - 1) / 2) + 1 &&
+            control.step % 2 !== 0,
           style: {
             backgroundColor: "#d9d9d9",
             transform: "scale(1.1, 1.1)",
@@ -67,8 +67,8 @@ function ReplayViewMovesTable(props) {
       conditionalCellStyles: [
         {
           when: (row) =>
-            row.step === Math.floor(control.step / 2) + 1 &&
-            control.step % 2 !== 0,
+            row.step === Math.floor((control.step - 1) / 2) + 1 &&
+            control.step % 2 === 0,
           style: {
             backgroundColor: "#d9d9d9",
             transform: "scale(1.1, 1.1)",

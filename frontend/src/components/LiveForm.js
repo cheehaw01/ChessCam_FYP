@@ -153,7 +153,16 @@ function LiveForm() {
           });
 
         // Reset Temp Live Move
-        // to be develop
+        axios
+          .delete(
+            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_MOVES_API_URL}`
+          )
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
 
         // Create Input Instruction
         axios
