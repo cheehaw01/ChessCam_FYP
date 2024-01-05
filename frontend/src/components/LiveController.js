@@ -3,7 +3,12 @@ import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
-import { LiveContext, LiveFormContext, LiveModalContext } from "./Live";
+import {
+  LiveContext,
+  LiveFormContext,
+  LiveModalContext,
+  LiveIllegalMoveModalContext,
+} from "./Live";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import LiveTimerController from "./LiveTimerController";
@@ -14,12 +19,18 @@ function LiveController(props) {
   const [auth, setAuth] = useState(false);
 
   // destructure props
-  const { timerStatus, setDefaultTimerValues, handlePostTimeApiCall } = props;
+  const {
+    timerStatus,
+    setDefaultTimerValues,
+    handlePostTimeApiCall,
+    handlePause,
+  } = props;
 
   // read and subsribe to contexts
   const liveContext = useContext(LiveContext);
   const formContext = useContext(LiveFormContext);
   const modalContext = useContext(LiveModalContext);
+  const illegalMoveModalContext = useContext(LiveIllegalMoveModalContext);
 
   // use to navigate page
   const navigate = useNavigate();
@@ -32,6 +43,25 @@ function LiveController(props) {
   // function - show modal for stopping live
   const handleStop = () => {
     modalContext.setShowStopModal(true);
+  };
+
+  // function - show illegal move modal
+  const handleOpenIllegalMoveModal = () => {
+    handlePause();
+    illegalMoveModalContext.setShowIllegalMoveModal(true);
+    axios
+      .patch(
+        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_INTERACTION_API_URL}`,
+        {
+          pawnPromotion: "",
+          moveCorrection: "",
+          wrongDetection: true,
+        }
+      )
+      .then((res) => {})
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // function - navigate to login page
@@ -125,7 +155,19 @@ function LiveController(props) {
             </React.Fragment>
           )}
         </Col>
-        <Col lg={3} sm={5}></Col>
+        <Col lg={3} sm={5} className="text-center p-2 row align-items-center">
+          {auth ? (
+            <Button
+              variant="warning"
+              onClick={handleOpenIllegalMoveModal}
+              className="border-black col-md-4 offset-md-4"
+            >
+              Wrong Detection
+            </Button>
+          ) : (
+            <></>
+          )}
+        </Col>
       </Row>
     </Container>
   );

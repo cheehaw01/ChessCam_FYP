@@ -22,6 +22,7 @@ const authentication = require("./routes/authentication");
 const admins = require("./routes/admins");
 const liveTimer = require("./routes/live_timer");
 const input = require("./routes/input");
+const liveInteraction = require("./routes/live_interaction");
 
 // Middleware
 app.use(
@@ -54,6 +55,7 @@ app.use("/api/v1/authentication", authentication);
 app.use("/api/v1/admins", admins);
 app.use("/api/v1/live_timer", liveTimer);
 app.use("/api/v1/input", input);
+app.use("/api/v1/live_interaction", liveInteraction);
 
 // All other GET requests not handled before will return our React app
 app.get("*", (req, res) => {

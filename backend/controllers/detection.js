@@ -3,7 +3,8 @@ const fs = require("fs");
 const { spawn } = require("child_process");
 
 const filepath = "./temp/live_status.json";
-const detectionProgramFilePath = "./python/simulate_fen.py";
+const detectionProgramTopFilePath = "./python/simulate_fen_san_with_input.py";
+const detectionProgramSideFilePath = "./python/simulate_fen_san.py";
 
 /**
  * Calls a Python script for game detection and stores relevant information in a file.
@@ -17,11 +18,17 @@ const detectionProgramFilePath = "./python/simulate_fen.py";
  * @returns {Promise<void>}
  */
 const callDetectionPyScript = async (req, res) => {
+  // Destructure the 'game_id' from the request body
+  const { game_id, camera_angle, camera_ip } = req.body;
+
+  // Select detection program
+  let detectionProgramFilePath = detectionProgramTopFilePath;
+  if (camera_angle === "Side") {
+    detectionProgramFilePath = detectionProgramSideFilePath;
+  }
+
   // Spawn a Python script for game detection
   const pythonDetection = spawn("python", [detectionProgramFilePath]);
-
-  // Destructure the 'game_id' from the request body
-  const { game_id } = req.body;
 
   // Log the process ID of the spawned Python script
   console.log(pythonDetection.pid);
@@ -31,6 +38,7 @@ const callDetectionPyScript = async (req, res) => {
     onLive: true,
     pythonProcessPid: pythonDetection.pid,
     game_id: game_id,
+    camera_ip: camera_ip,
   };
 
   // Write data to a file

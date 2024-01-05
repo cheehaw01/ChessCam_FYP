@@ -86,6 +86,13 @@ entries = [
   },
 ]
 
+print("Run: simulate_fen_san_with_input.py")
+
+while fd.readCameraIpAddress == "":
+  print("Empty IP address")
+
+print("Camera IP address: ", fd.readCameraIpAddress)
+
 for i in range(len(entries)):
   if i == 0:
     fd.updateLivePosition(entries[i]["fen"])

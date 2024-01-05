@@ -174,6 +174,16 @@ function LiveForm() {
           })
           .catch((err) => console.log(err));
 
+        // Reset Live Interaction
+        axios
+          .post(
+            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_INTERACTION_API_URL}`
+          )
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => console.log(err));
+
         // Create game
         axios
           .post(
@@ -227,6 +237,8 @@ function LiveForm() {
                 `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_DETECTION_API_URL}`,
                 {
                   game_id: res.data.data.game_id,
+                  camera_angle: data.cameraAngle,
+                  camera_ip: data.cameraIP,
                 }
               )
               .then((res) => {
@@ -470,6 +482,42 @@ function LiveForm() {
               <Form.Text className="text-danger">
                 {errors.player2?.message}
                 {errors.player2Select?.message}
+              </Form.Text>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="cameraAngle">
+              <Form.Label>Camera Angle:</Form.Label>
+              <Form.Select
+                className="mb-1"
+                // disabled={watchPlayer2Check}
+                {...register("cameraAngle", {
+                  required: "Camera angle is required",
+                })}
+              >
+                <option key={0}>Top</option>
+                <option key={1}>Side</option>
+              </Form.Select>
+              <Form.Text className="text-danger">
+                {errors.cameraAngle?.message}
+              </Form.Text>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="cameraIP">
+              <Form.Label>Camera IP address:</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter camera IP address."
+                {...register("cameraIP", {
+                  required: "Camera IP address is required",
+                  pattern: {
+                    value:
+                      /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
+                    message: "invalid ip address",
+                  },
+                })}
+              />
+              <Form.Text className="text-danger">
+                {errors.cameraIP?.message}
               </Form.Text>
             </Form.Group>
           </Modal.Body>

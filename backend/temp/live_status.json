@@ -1,5 +1,6 @@
 {
   "onLive": false,
   "pythonProcessPid": null,
-  "game_id": null
+  "game_id": null,
+  "camera_ip": ""
 }
