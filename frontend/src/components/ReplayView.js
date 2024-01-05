@@ -125,7 +125,7 @@ function ReplayView() {
                   }}
                 >
                   <Row className="p-1">
-                    <ReplayViewPlayerInfoCard title={whiteId}>
+                    <ReplayViewPlayerInfoCard title={blackId}>
                       <ReplayViewTimer
                         minute={blackTime[step][0]}
                         second={blackTime[step][1]}
@@ -140,7 +140,7 @@ function ReplayView() {
                     />
                   </Row>
                   <Row className="p-1">
-                    <ReplayViewPlayerInfoCard title={blackId}>
+                    <ReplayViewPlayerInfoCard title={whiteId}>
                       <ReplayViewTimer
                         minute={whiteTime[step][0]}
                         second={whiteTime[step][1]}

@@ -1,0 +1,7 @@
+{
+  "promotion": false,
+  "illegalMove": false,
+  "promotionNewPiece": "",
+  "illegalCorrectMove": "",
+  "wrongDetection": false
+}

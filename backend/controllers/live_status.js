@@ -69,13 +69,14 @@ const getPyPid = (req, res) => {
  */
 const createLiveStatus = (req, res) => {
   // Destructure live status data from the request body
-  const { onLive, pythonProcessPid, game_id, deadline } = req.body;
+  const { onLive, pythonProcessPid, game_id, camera_ip } = req.body;
 
   // Create an object with the live status data
   const data = {
     onLive: onLive,
     pythonProcessPid: pythonProcessPid,
     game_id: game_id,
+    camera_ip: camera_ip,
   };
 
   // Write the live status data to the specified file
@@ -107,6 +108,7 @@ const deleteLiveStatus = (req, res) => {
     onLive: false,
     pythonProcessPid: null,
     game_id: null,
+    camera_ip: "",
   };
 
   // Write the default live status data to the specified file

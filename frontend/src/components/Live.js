@@ -10,12 +10,16 @@ import LiveController from "./LiveController";
 import LiveTimer from "./LiveTimer";
 import LiveForm from "./LiveForm";
 import LiveStopModal from "./LiveStopModal";
+import LivePromotionModal from "./LivePromotionModal";
+import LiveIllegalMoveModal from "./LiveIllegalMoveModal";
 import axios from "axios";
 
 // create react context
 export const LiveContext = React.createContext();
 export const LiveFormContext = React.createContext();
 export const LiveModalContext = React.createContext();
+export const LivePromotionModalContext = React.createContext();
+export const LiveIllegalMoveModalContext = React.createContext();
 
 // Live Page
 function Live() {
@@ -33,6 +37,8 @@ function Live() {
   const [curDate, setCurDate] = useState();
   const [showForm, setShowForm] = useState(false);
   const [showStopModal, setShowStopModal] = useState(false);
+  const [showPromotionModal, setShowPromotionModal] = useState(false);
+  const [showIllegalMoveModal, setShowIllegalMoveModal] = useState(false);
   const [curGameId, setCurGameId] = useState();
   const [timerStatus, setTimerStatus] = useState(0);
   const [defaultTimerValues, setDefaultTimerValues] = useState(["20", "00"]);
@@ -112,6 +118,25 @@ function Live() {
     }
   };
 
+  // function - handle timer pause
+  const handlePause = () => {
+    console.log(timerStatus);
+    if (timerStatus === 1) {
+      handlePostTimeApiCall(4);
+    } else if (timerStatus === 2) {
+      handlePostTimeApiCall(0);
+    }
+  };
+
+  // function - handle timer play
+  const handlePlay = () => {
+    if (timerStatus === 0) {
+      handlePostTimeApiCall(2);
+    } else if (timerStatus === 4) {
+      handlePostTimeApiCall(1);
+    }
+  };
+
   // function - handle the white side timer click
   const handleWhiteTimerClick = () => {
     return timerStatus === 0 || timerStatus === 2 || timerStatus === 3
@@ -147,6 +172,20 @@ function Live() {
         )
         .then((res) => {
           setTimerStatus(res.data.turn);
+        })
+        .catch((err) => console.log(err));
+
+      // Call API to read live interaction for event trigger
+      axios
+        .get(
+          `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_INTERACTION_API_URL}`
+        )
+        .then((res) => {
+          if (res.data.illegalMove) {
+            setShowIllegalMoveModal(true);
+          } else if (res.data.promotion) {
+            setShowPromotionModal(true);
+          }
         })
         .catch((err) => console.log(err));
     }, 1000);
@@ -261,7 +300,7 @@ function Live() {
                 <Row className="p-1">
                   {/* <button onClick={handleBlackTimerClick()}> */}
                   <LivePlayerInfoCard
-                    title={curWhitePlayerId}
+                    title={curBlackPlayerId}
                     timerClick={handleBlackTimerClick}
                     clickable={
                       timerStatus !== 0 &&
@@ -286,7 +325,7 @@ function Live() {
                 <Row className="p-1">
                   {/* <button onClick={handleWhiteTimerClick()}> */}
                   <LivePlayerInfoCard
-                    title={curBlackPlayerId}
+                    title={curWhitePlayerId}
                     timerClick={handleWhiteTimerClick}
                     clickable={
                       timerStatus === 0 ||
@@ -331,14 +370,41 @@ function Live() {
               handlePostTimeApiCall: handlePostTimeApiCall,
             }}
           >
-            <LiveController
-              auth={auth}
-              timerStatus={timerStatus}
-              setDefaultTimerValues={setDefaultTimerValues}
-              handlePostTimeApiCall={handlePostTimeApiCall}
-            />
-            <LiveForm />
-            <LiveStopModal />
+            <LiveIllegalMoveModalContext.Provider
+              value={{
+                showIllegalMoveModal: showIllegalMoveModal,
+                setShowIllegalMoveModal: setShowIllegalMoveModal,
+                auth: auth,
+                handlePlay: handlePlay,
+              }}
+            >
+              <LivePromotionModalContext.Provider
+                value={{
+                  showPromotionModal: showPromotionModal,
+                  setShowPromotionModal: setShowPromotionModal,
+                  auth: auth,
+                  handlePlay: handlePlay,
+                }}
+              >
+                <LiveController
+                  auth={auth}
+                  timerStatus={timerStatus}
+                  setDefaultTimerValues={setDefaultTimerValues}
+                  handlePostTimeApiCall={handlePostTimeApiCall}
+                  handlePause={handlePause}
+                />
+                <LiveForm />
+                <LiveStopModal />
+                <LivePromotionModal
+                  showPromotionModal={showPromotionModal}
+                  handlePause={handlePause}
+                />
+                <LiveIllegalMoveModal
+                  showIllegalMoveModal={showIllegalMoveModal}
+                  handlePause={handlePause}
+                />
+              </LivePromotionModalContext.Provider>
+            </LiveIllegalMoveModalContext.Provider>
           </LiveModalContext.Provider>
         </LiveFormContext.Provider>
       </LiveContext.Provider>

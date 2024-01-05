@@ -86,6 +86,13 @@ entries = [
   },
 ]
 
+print("Run: simulate_fen_san.py")
+
+while fd.readCameraIpAddress == "":
+  print("Empty IP address")
+
+print("Camera IP address: ", fd.readCameraIpAddress)
+
 for i in range(len(entries)):
   try:
     fd.updateLiveMove(entries[i]["fen"], entries[i]["san"])
