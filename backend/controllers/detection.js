@@ -4,7 +4,8 @@ const { spawn } = require("child_process");
 
 const filepath = "./temp/live_status.json";
 const detectionProgramTopFilePath = "./python/simulate_fen_san_with_input.py";
-const detectionProgramSideFilePath = "./python/simulate_fen_san.py";
+const detectionProgramSideFilePath = "./python/main.py";
+
 
 /**
  * Calls a Python script for game detection and stores relevant information in a file.
