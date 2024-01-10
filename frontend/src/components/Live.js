@@ -51,9 +51,7 @@ function Live() {
   const handleInputApiCall = () => {
     // Call API for updating input instruction
     axios
-      .patch(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_INPUT_API_URL}/1`
-      )
+      .patch(`${process.env.REACT_APP_INPUT_API_URL}/1`)
       .then((res) => {
         console.log(res.data);
       })
@@ -65,16 +63,14 @@ function Live() {
     if (auth) {
       // Api call for changing the timer status
       axios
-        .post(
-          `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_TIMER_API_URL}/${turn}`
-        )
+        .post(`${process.env.REACT_APP_LIVE_TIMER_API_URL}/${turn}`)
         .then((res) => {
           console.log(res.data);
           if (turn === 3) {
             // Api call for changing the time value
             axios
               .post(
-                `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_TIMER_API_URL}/${turn}`,
+                `${process.env.REACT_APP_LIVE_TIMER_API_URL}/${turn}`,
                 turn === 3
                   ? {
                       time: defaultTimerValues,
@@ -93,6 +89,14 @@ function Live() {
 
   // function - toggle timer
   const handleTimerClick = () => {
+    // Call API for updating capture image instruction
+    // axios
+    //   .patch(`${process.env.REACT_APP_CAMERA_API_URL}/image/1`)
+    //   .then((res) => {
+    //     console.log(res.data);
+    //   })
+    //   .catch((err) => console.log(err));
+
     // 0 - both stop, can start white
     // 1 - black start, white stop
     // 2 - white start, black stop
@@ -157,9 +161,7 @@ function Live() {
     const liveCheck = setInterval(() => {
       // Call API to read live status
       axios
-        .get(
-          `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_STATUS_API_URL}`
-        )
+        .get(`${process.env.REACT_APP_LIVE_STATUS_API_URL}`)
         .then((res) => {
           setLive(res.data.onLive);
         })
@@ -167,9 +169,7 @@ function Live() {
 
       // Call API to read the live time values
       axios
-        .get(
-          `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_TIMER_API_URL}`
-        )
+        .get(`${process.env.REACT_APP_LIVE_TIMER_API_URL}`)
         .then((res) => {
           setTimerStatus(res.data.turn);
         })
@@ -177,9 +177,7 @@ function Live() {
 
       // Call API to read live interaction for event trigger
       axios
-        .get(
-          `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_INTERACTION_API_URL}`
-        )
+        .get(`${process.env.REACT_APP_LIVE_INTERACTION_API_URL}`)
         .then((res) => {
           if (res.data.illegalMove) {
             setShowIllegalMoveModal(true);
@@ -192,9 +190,7 @@ function Live() {
 
     // Authentication API call
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_AUTHENTICATION_API_URL}`
-      )
+      .get(`${process.env.REACT_APP_AUTHENTICATION_API_URL}`)
       .then((res) => {
         if (res.data.success === 1) {
           setAuth(true);
@@ -209,18 +205,14 @@ function Live() {
 
     // API to retrieve information if a game is on live
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_STATUS_API_URL}`
-      )
+      .get(`${process.env.REACT_APP_LIVE_STATUS_API_URL}`)
       .then((res) => {
         setLive(res.data.onLive);
         setCurGameId(res.data.game_id);
 
         // Api call to get the game information
         axios
-          .get(
-            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_GAMES_API_URL}/${res.data.game_id}`
-          )
+          .get(`${process.env.REACT_APP_GAMES_API_URL}/${res.data.game_id}`)
           .then((res) => {
             console.log("game:", res.data.data);
             setCurTournamentId(res.data.data?.tournament_id);
@@ -231,9 +223,7 @@ function Live() {
 
         // Api call to get the player pair information
         axios
-          .get(
-            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PAIRS_API_URL}/${res.data.game_id}`
-          )
+          .get(`${process.env.REACT_APP_PAIRS_API_URL}/${res.data.game_id}`)
           .then((res) => {
             res.data.data &&
               res.data.data.map((item) => {

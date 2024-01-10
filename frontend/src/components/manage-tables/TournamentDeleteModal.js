@@ -19,7 +19,7 @@ function TournamentDeleteModal() {
     // api call to delete tournament data
     axios
       .delete(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_TOURNAMENTS_API_URL}/${modalContext.deleteId}`
+        `${process.env.REACT_APP_TOURNAMENTS_API_URL}/${modalContext.deleteId}`
       )
       .then((res) => {
         console.log(res);

@@ -35,7 +35,7 @@ function AdminEditForm() {
     // api call to update admin data
     axios
       .patch(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_ADMINS_API_URL}/${formContext.editId}`,
+        `${process.env.REACT_APP_ADMINS_API_URL}/${formContext.editId}`,
         data
       )
       .then((res) => {
@@ -63,9 +63,7 @@ function AdminEditForm() {
   useEffect(() => {
     // api call to get admin data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_ADMINS_API_URL}/${formContext.editId}`
-      )
+      .get(`${process.env.REACT_APP_ADMINS_API_URL}/${formContext.editId}`)
       .then((res) => {
         setValue("name", res.data.data?.name);
         console.log(res);

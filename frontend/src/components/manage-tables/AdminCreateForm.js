@@ -33,10 +33,7 @@ function AdminCreateForm() {
   const onSubmit = (data) => {
     // authentication api
     axios
-      .post(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_AUTHENTICATION_API_URL}/register`,
-        data
-      )
+      .post(`${process.env.REACT_APP_AUTHENTICATION_API_URL}/register`, data)
       .then((res) => {
         if (res.data.success === 0) {
           setFailMsg(res.data.message);

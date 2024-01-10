@@ -30,7 +30,7 @@ function PlayerEditForm() {
     // api call to update player data
     axios
       .patch(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PLAYERS_API_URL}/${formContext.editId}`,
+        `${process.env.REACT_APP_PLAYERS_API_URL}/${formContext.editId}`,
         data
       )
       .then((res) => {
@@ -53,9 +53,7 @@ function PlayerEditForm() {
   useEffect(() => {
     // api call to get player data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PLAYERS_API_URL}/${formContext.editId}`
-      )
+      .get(`${process.env.REACT_APP_PLAYERS_API_URL}/${formContext.editId}`)
       .then((res) => {
         setValue("player_name", res.data.data?.player_name);
         setValue("win_count", res.data.data?.win_count);

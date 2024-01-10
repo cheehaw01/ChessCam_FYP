@@ -41,9 +41,7 @@ function ReplayView() {
   useEffect(() => {
     // api call for getting game data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_GAMES_API_URL}/${gameId}`
-      )
+      .get(`${process.env.REACT_APP_GAMES_API_URL}/${gameId}`)
       .then((res) => {
         setTournamentId(res.data.data?.tournament_id);
         setVenueId(res.data.data?.venue_id);
@@ -53,9 +51,7 @@ function ReplayView() {
 
     // api call for getting player pair data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PAIRS_API_URL}/${gameId}`
-      )
+      .get(`${process.env.REACT_APP_PAIRS_API_URL}/${gameId}`)
       .then((res) => {
         res.data.data &&
           res.data.data.map((item) => {
@@ -73,9 +69,7 @@ function ReplayView() {
 
     // api call for getting timer records
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_RECORD_POSITIONS_API_URL}/time/${gameId}`
-      )
+      .get(`${process.env.REACT_APP_RECORD_POSITIONS_API_URL}/time/${gameId}`)
       .then((res) => {
         setWhiteTime(
           res.data.map((item) => {

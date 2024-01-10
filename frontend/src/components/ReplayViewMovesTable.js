@@ -17,9 +17,7 @@ function ReplayViewMovesTable(props) {
   useEffect(() => {
     // api call to get move record data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_RECORD_MOVES_API_URL}/${gameId}`
-      )
+      .get(`${process.env.REACT_APP_RECORD_MOVES_API_URL}/${gameId}`)
       .then((res) => {
         setMoves(res.data);
         console.log(res.data);

@@ -14,6 +14,7 @@ import Login from "./components/Login";
 import AdminTable from "./components/manage-tables/AdminTable";
 import PageNotFound from "./components/PageNotFound";
 import Register from "./components/Register";
+// import LiveCamera from "./components/LiveCamera";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="tournament" element={<TournamentTable />} />
           <Route path="venue" element={<VenueTable></VenueTable>} />
         </Route>
+        {/* <Route path="livecamera" element={<LiveCamera />}></Route> */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>

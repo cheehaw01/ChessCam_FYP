@@ -18,9 +18,7 @@ function ReplayViewChessboardHolder(props) {
   useEffect(() => {
     // api call to get position record data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_RECORD_POSITIONS_API_URL}/${gameId}`
-      )
+      .get(`${process.env.REACT_APP_RECORD_POSITIONS_API_URL}/${gameId}`)
       .then((res) => {
         setPosition(res.data);
         console.log(res.data);

@@ -68,9 +68,7 @@ function VenueTable() {
   // side effect
   useEffect(() => {
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_VENUES_API_URL}`
-      )
+      .get(`${process.env.REACT_APP_VENUES_API_URL}`)
       .then((res) => {
         setVenues(res.data.data);
         setData(res.data.data);

@@ -29,10 +29,7 @@ function Login() {
   const onSubmit = (data) => {
     // api call for login
     axios
-      .post(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_AUTHENTICATION_API_URL}/login`,
-        data
-      )
+      .post(`${process.env.REACT_APP_AUTHENTICATION_API_URL}/login`, data)
       .then((res) => {
         console.log(res);
         if (res.data.success === 1) {
@@ -58,9 +55,7 @@ function Login() {
   const handleLogout = () => {
     // api call for logout
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_AUTHENTICATION_API_URL}/logout`
-      )
+      .get(`${process.env.REACT_APP_AUTHENTICATION_API_URL}/logout`)
       .then((res) => {
         window.location.reload(true);
       })
@@ -73,9 +68,7 @@ function Login() {
   useEffect(() => {
     // api call for authentication
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_AUTHENTICATION_API_URL}`
-      )
+      .get(`${process.env.REACT_APP_AUTHENTICATION_API_URL}`)
       .then((res) => {
         if (res.data.success === 1) {
           setAuth(true);
@@ -85,9 +78,7 @@ function Login() {
 
           // api call for number of admin
           axios
-            .get(
-              `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_ADMINS_API_URL}/count`
-            )
+            .get(`${process.env.REACT_APP_ADMINS_API_URL}/count`)
             .then((res) => {
               if (res.data.data < 1) {
                 // navigate to register page if no admin

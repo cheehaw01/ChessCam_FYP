@@ -18,7 +18,7 @@ class CountDownTimerPair {
         if (err) {
           console.log(err);
         }
-        console.log(data);
+        // console.log(data);
         switch (data.turn) {
           case 4:
           case 0:

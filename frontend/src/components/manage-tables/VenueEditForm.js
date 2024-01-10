@@ -31,7 +31,7 @@ function VenueEditForm() {
     // api call to update venue data
     axios
       .patch(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_VENUES_API_URL}/${formContext.editId}`,
+        `${process.env.REACT_APP_VENUES_API_URL}/${formContext.editId}`,
         data
       )
       .then((res) => {
@@ -54,9 +54,7 @@ function VenueEditForm() {
   useEffect(() => {
     // api call to get venue data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_VENUES_API_URL}/${formContext.editId}`
-      )
+      .get(`${process.env.REACT_APP_VENUES_API_URL}/${formContext.editId}`)
       .then((res) => {
         setValue("venue_name", res.data.data?.venue_name);
         console.log(res);

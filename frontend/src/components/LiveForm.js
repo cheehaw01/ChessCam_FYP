@@ -40,12 +40,9 @@ function LiveForm() {
     return new Promise((resolve, reject) => {
       if (tournamentCheck) {
         axios
-          .post(
-            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_TOURNAMENTS_API_URL}`,
-            {
-              tournament_name: tournament_name,
-            }
-          )
+          .post(`${process.env.REACT_APP_TOURNAMENTS_API_URL}`, {
+            tournament_name: tournament_name,
+          })
           .then((res) => {
             console.log(res);
             resolve(res.data.data.tournament_id); // fulfilled
@@ -65,12 +62,9 @@ function LiveForm() {
     return new Promise((resolve, reject) => {
       if (venueCheck) {
         axios
-          .post(
-            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_VENUES_API_URL}`,
-            {
-              venue_name: venue_name,
-            }
-          )
+          .post(`${process.env.REACT_APP_VENUES_API_URL}`, {
+            venue_name: venue_name,
+          })
           .then((res) => {
             console.log(res);
             resolve(res.data.data.venue_id); // fulfilled
@@ -90,14 +84,11 @@ function LiveForm() {
     return new Promise((resolve, reject) => {
       if (playerCheck) {
         axios
-          .post(
-            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PLAYERS_API_URL}`,
-            {
-              player_name: player_name,
-              win_count: 0,
-              lose_count: 0,
-            }
-          )
+          .post(`${process.env.REACT_APP_PLAYERS_API_URL}`, {
+            player_name: player_name,
+            win_count: 0,
+            lose_count: 0,
+          })
           .then((res) => {
             console.log(res);
             resolve(res.data.data.player_id); // fulfilled
@@ -142,9 +133,7 @@ function LiveForm() {
 
         // Reset Temp Live Position
         axios
-          .delete(
-            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_POSITIONS_API_URL}`
-          )
+          .delete(`${process.env.REACT_APP_LIVE_POSITIONS_API_URL}`)
           .then((res) => {
             console.log(res.data);
           })
@@ -154,9 +143,7 @@ function LiveForm() {
 
         // Reset Temp Live Move
         axios
-          .delete(
-            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_MOVES_API_URL}`
-          )
+          .delete(`${process.env.REACT_APP_LIVE_MOVES_API_URL}`)
           .then((res) => {
             console.log(res.data);
           })
@@ -166,9 +153,15 @@ function LiveForm() {
 
         // Create Input Instruction
         axios
-          .post(
-            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_INPUT_API_URL}`
-          )
+          .post(`${process.env.REACT_APP_INPUT_API_URL}`)
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => console.log(err));
+
+        // Create Camera Instruction
+        axios
+          .post(`${process.env.REACT_APP_CAMERA_API_URL}/image`)
           .then((res) => {
             console.log(res.data);
           })
@@ -176,9 +169,7 @@ function LiveForm() {
 
         // Reset Live Interaction
         axios
-          .post(
-            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_INTERACTION_API_URL}`
-          )
+          .post(`${process.env.REACT_APP_LIVE_INTERACTION_API_URL}`)
           .then((res) => {
             console.log(res.data);
           })
@@ -186,29 +177,23 @@ function LiveForm() {
 
         // Create game
         axios
-          .post(
-            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_GAMES_API_URL}`,
-            {
-              tournament_id: values[0],
-              venue_id: values[1],
-              date: curDate,
-              winning_side: "live",
-            }
-          )
+          .post(`${process.env.REACT_APP_GAMES_API_URL}`, {
+            tournament_id: values[0],
+            venue_id: values[1],
+            date: curDate,
+            winning_side: "live",
+          })
           .then((res) => {
             console.log(res);
             modalContext.setCurGameId(res.data.data.game_id);
 
             // Create Pairs
             axios
-              .post(
-                `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PAIRS_API_URL}`,
-                {
-                  game_id: res.data.data.game_id,
-                  player_id: values[2],
-                  side: "white",
-                }
-              )
+              .post(`${process.env.REACT_APP_PAIRS_API_URL}`, {
+                game_id: res.data.data.game_id,
+                player_id: values[2],
+                side: "white",
+              })
               .then((res) => {
                 console.log(res);
               })
@@ -216,14 +201,11 @@ function LiveForm() {
                 console.log(err);
               });
             axios
-              .post(
-                `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PAIRS_API_URL}`,
-                {
-                  game_id: res.data.data.game_id,
-                  player_id: values[3],
-                  side: "black",
-                }
-              )
+              .post(`${process.env.REACT_APP_PAIRS_API_URL}`, {
+                game_id: res.data.data.game_id,
+                player_id: values[3],
+                side: "black",
+              })
               .then((res) => {
                 console.log(res);
               })
@@ -233,14 +215,11 @@ function LiveForm() {
 
             // Run Python for detection
             axios
-              .post(
-                `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_DETECTION_API_URL}`,
-                {
-                  game_id: res.data.data.game_id,
-                  camera_angle: data.cameraAngle,
-                  camera_ip: data.cameraIP,
-                }
-              )
+              .post(`${process.env.REACT_APP_DETECTION_API_URL}`, {
+                game_id: res.data.data.game_id,
+                camera_angle: data.cameraAngle,
+                camera_ip: data.cameraIP,
+              })
               .then((res) => {
                 console.log(res.data);
                 // simulate api set onLive true
@@ -281,9 +260,7 @@ function LiveForm() {
   useEffect(() => {
     // api call for getting tournament data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_TOURNAMENTS_API_URL}`
-      )
+      .get(`${process.env.REACT_APP_TOURNAMENTS_API_URL}`)
       .then((res) => {
         setTournamentsData(res.data.data);
         console.log(res);
@@ -292,9 +269,7 @@ function LiveForm() {
 
     // api call for getting venue data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_VENUES_API_URL}`
-      )
+      .get(`${process.env.REACT_APP_VENUES_API_URL}`)
       .then((res) => {
         setVenuesData(res.data.data);
         console.log(res);
@@ -303,9 +278,7 @@ function LiveForm() {
 
     // api call for getting player data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PLAYERS_API_URL}`
-      )
+      .get(`${process.env.REACT_APP_PLAYERS_API_URL}`)
       .then((res) => {
         setPlayersData(res.data.data);
         console.log(res);

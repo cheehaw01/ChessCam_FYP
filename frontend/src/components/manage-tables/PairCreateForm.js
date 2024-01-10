@@ -31,10 +31,7 @@ function PairCreateForm() {
     console.log(data);
     // api call to create new pair data
     axios
-      .post(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PAIRS_API_URL}`,
-        data
-      )
+      .post(`${process.env.REACT_APP_PAIRS_API_URL}`, data)
       .then((res) => {
         console.log(res);
         if (res.data?.success === 0) {
@@ -58,9 +55,7 @@ function PairCreateForm() {
   useEffect(() => {
     // api call to get game data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_GAMES_API_URL}/raw`
-      )
+      .get(`${process.env.REACT_APP_GAMES_API_URL}/raw`)
       .then((res) => {
         setGamesData(res.data.data);
         console.log(res);
@@ -69,9 +64,7 @@ function PairCreateForm() {
 
     // api call to get players data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PLAYERS_API_URL}`
-      )
+      .get(`${process.env.REACT_APP_PLAYERS_API_URL}`)
       .then((res) => {
         setPlayersData(res.data.data);
         console.log(res);

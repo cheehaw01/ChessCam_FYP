@@ -14,9 +14,7 @@ function LivePlayerInfoCard(props) {
   useEffect(() => {
     // api call for getting player data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PLAYERS_API_URL}/${title}`
-      )
+      .get(`${process.env.REACT_APP_PLAYERS_API_URL}/${title}`)
       .then((res) => {
         console.log(res);
         setPlayerName(res.data.data?.player_name || "-");
