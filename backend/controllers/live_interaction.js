@@ -47,6 +47,7 @@ const createLiveInteraction = (req, res) => {
     promotionNewPiece: "",
     illegalCorrectMove: "",
     wrongDetection: false,
+    cameraStart: false,
   };
 
   // Write the live interaction data to the specified file

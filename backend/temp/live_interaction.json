@@ -3,5 +3,6 @@
   "illegalMove": false,
   "promotionNewPiece": "",
   "illegalCorrectMove": "",
-  "wrongDetection": false
+  "wrongDetection": false,
+  "cameraStart": false
 }

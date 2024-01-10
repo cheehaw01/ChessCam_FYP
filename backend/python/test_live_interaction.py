@@ -5,3 +5,4 @@ import file_data_module as fdm
 # print("New Piece: ", fdm.readPromotionNewPiece())
 # print("Correct Move: ", fdm.readIllegalCorrectMove())
 # print("Wrong Detection: ", fdm.readWrongDetection())
+# print("Camera IP: ", fdm.readCameraIpAddress())

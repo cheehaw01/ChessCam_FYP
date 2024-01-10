@@ -17,6 +17,7 @@ functions:
     * readPromotionNewPiece   - read new piece for pawn promotion from live_interaction.json file
     * readIllegalCorrectMove  - read correct move for illegal move from live_interaction.json file
     * readWrongDetection      - read wrong detection trigger from live_interaction.json file
+    * setCameraStart          - set camera start trigger value of live_interaction.json file
 """
 
 import json
@@ -27,6 +28,7 @@ MOVE_FILENAME = './temp/live_moves.json'
 TIMER_FILENAME = './temp/live_timer.json'
 INPUT_FILENAME = './temp/input.json'
 INTERACTION_FILENAME = './temp/live_interaction.json'
+LIVE_STATUS_FILENAME = './temp/live_status.json'
 
 # Files path (follow python file path, when run without nodejs)
 # POSITION_FILENAME = '../temp/live_positions.json'
@@ -34,6 +36,7 @@ INTERACTION_FILENAME = './temp/live_interaction.json'
 # TIMER_FILENAME = '../temp/live_timer.json'
 # INPUT_FILENAME = '../temp/input.json'
 # INTERACTION_FILENAME = '../temp/live_interaction.json'
+# LIVE_STATUS_FILENAME = '../temp/live_status.json'
 
 def updateLivePosition(fen_string: str):
   """Update the contents of `live_positions.json` file
@@ -155,6 +158,7 @@ def readTimerButtonInput():
   except:
     return False
   
+
 def readCameraIpAddress():
   """Read the camera ip address in `live_status.json` file
 
@@ -169,12 +173,13 @@ def readCameraIpAddress():
 
   try:
     # Open the live_status json file to read data
-    with open(INPUT_FILENAME) as file:
+    with open(LIVE_STATUS_FILENAME) as file:
       data = json.load(file)
       return data['camera_ip']
   except:
     return "Error - Failed to read file."
   
+
 def setPromotion(value : bool):
   """Set the pawn promotion trigger in `live_interaction.json` file
 
@@ -198,6 +203,7 @@ def setPromotion(value : bool):
   except:
     return False
   
+
 def setIllegalMove(value : bool):
   """Set the illegal move trigger in `live_interaction.json` file
 
@@ -220,6 +226,7 @@ def setIllegalMove(value : bool):
         return True
   except:
     return False
+
 
 def readPromotionNewPiece():
   """Read the new piece for promotion from `live_interaction.json` file
@@ -247,6 +254,7 @@ def readPromotionNewPiece():
   except:
     return "Error - Failed to read file."
   
+
 def readIllegalCorrectMove():
   """Read the correction of illegal move from `live_interaction.json` file
 
@@ -272,6 +280,7 @@ def readIllegalCorrectMove():
   except:
     return "Error - Failed to read file."
   
+
 def readWrongDetection():
   """Read the wrong detection trigger from `live_interaction.json` file
 
@@ -294,5 +303,29 @@ def readWrongDetection():
         with open(INTERACTION_FILENAME, 'w') as writeFile:
           json.dump(data, writeFile, indent=2)
       return wrong_detection
+  except:
+    return False
+
+
+def setCameraStart(value : bool):
+  """Set the camera start trigger in `live_interaction.json` file
+
+    Parameters
+    ----------
+    value : bool
+
+    Returns
+    -------
+    success or fail : bool
+    """
+
+  try:
+    # Open the live interaction file to override the new camera start trigger
+    with open(INTERACTION_FILENAME) as file:
+      data = json.load(file)
+      data['cameraStart'] = value
+      with open(INTERACTION_FILENAME, 'w') as writeFile:
+        json.dump(data, writeFile, indent=2)
+        return True
   except:
     return False

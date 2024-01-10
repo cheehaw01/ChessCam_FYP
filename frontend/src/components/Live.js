@@ -42,6 +42,7 @@ function Live() {
   const [curGameId, setCurGameId] = useState();
   const [timerStatus, setTimerStatus] = useState(0);
   const [defaultTimerValues, setDefaultTimerValues] = useState(["20", "00"]);
+  const [cameraStart, setCameraStart] = useState(false);
   const [auth, setAuth] = useState(false);
 
   // cross-site Access-Control requests with credentials
@@ -89,36 +90,39 @@ function Live() {
 
   // function - toggle timer
   const handleTimerClick = () => {
-    // Call API for updating capture image instruction
-    // axios
-    //   .patch(`${process.env.REACT_APP_CAMERA_API_URL}/image/1`)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //   })
-    //   .catch((err) => console.log(err));
+    if (cameraStart) {
+      console.log("Pressed");
+      // Call API for updating capture image instruction
+      // axios
+      //   .patch(`${process.env.REACT_APP_CAMERA_API_URL}/image/1`)
+      //   .then((res) => {
+      //     console.log(res.data);
+      //   })
+      //   .catch((err) => console.log(err));
 
-    // 0 - both stop, can start white
-    // 1 - black start, white stop
-    // 2 - white start, black stop
-    // 3 - both stop, can start white
-    // 4 - both stop, can start black
-    switch (timerStatus) {
-      case 3:
-      case 0:
-        handleInputApiCall();
-        handlePostTimeApiCall(1);
-        break;
-      case 4:
-      case 1:
-        handleInputApiCall();
-        handlePostTimeApiCall(2);
-        break;
-      case 2:
-        handleInputApiCall();
-        handlePostTimeApiCall(1);
-        break;
-      default:
-        break;
+      // 0 - both stop, can start white
+      // 1 - black start, white stop
+      // 2 - white start, black stop
+      // 3 - both stop, can start white
+      // 4 - both stop, can start black
+      switch (timerStatus) {
+        case 3:
+        case 0:
+          handleInputApiCall();
+          handlePostTimeApiCall(1);
+          break;
+        case 4:
+        case 1:
+          handleInputApiCall();
+          handlePostTimeApiCall(2);
+          break;
+        case 2:
+          handleInputApiCall();
+          handlePostTimeApiCall(1);
+          break;
+        default:
+          break;
+      }
     }
   };
 
@@ -184,6 +188,8 @@ function Live() {
           } else if (res.data.promotion) {
             setShowPromotionModal(true);
           }
+          setCameraStart(res.data.cameraStart);
+          console.log("camera asdasdasd", res.data.cameraStart);
         })
         .catch((err) => console.log(err));
     }, 1000);
@@ -296,7 +302,8 @@ function Live() {
                       timerStatus !== 0 &&
                       timerStatus !== 2 &&
                       timerStatus !== 3 &&
-                      (timerStatus === 1 || timerStatus === 4)
+                      (timerStatus === 1 || timerStatus === 4) &&
+                      cameraStart
                     }
                     auth={auth}
                   >
@@ -318,9 +325,10 @@ function Live() {
                     title={curWhitePlayerId}
                     timerClick={handleWhiteTimerClick}
                     clickable={
-                      timerStatus === 0 ||
-                      timerStatus === 2 ||
-                      timerStatus === 3
+                      (timerStatus === 0 ||
+                        timerStatus === 2 ||
+                        timerStatus === 3) &&
+                      cameraStart
                     }
                     auth={auth}
                   >
