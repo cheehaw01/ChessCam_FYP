@@ -73,6 +73,60 @@ def updateLivePosition(fen_string: str):
   except Exception:
     return False
 
+def fixLivePosition(fen_string: str):
+  try:
+
+    # Opening timer JSON file
+    timer_file = open(TIMER_FILENAME)
+
+    # returns JSON object as 
+    # a dictionary
+    timer_data = json.load(timer_file)
+
+    # Prepare a new data for appending
+    newLiveData = { "fen": fen_string, "white": timer_data['white'], "black": timer_data['black']}
+
+    # Open the position file to append the new data
+    with open(POSITION_FILENAME) as file:
+      data = json.load(file)
+      data_length = len(data)-1
+      data = data[:data_length]
+      print("Hi, here",data)
+      data.append(newLiveData)
+      with open(POSITION_FILENAME, 'w') as writeFile:
+        json.dump(data, writeFile, indent=2)
+        return True
+  except Exception:
+    return False
+
+def fixLiveMove(fen_string: str, san_string: str):
+  try:
+    # Split FEN string with space (" ")
+    fen_string_parts = fen_string.split()
+    position_only = fen_string_parts[0]
+    side = fen_string_parts[1]
+
+    # Open the move file to append the new data
+    with open(MOVE_FILENAME, "r+") as file:
+      data = json.load(file)
+      data_length = len(data)
+
+      if side == "w" and data [data_length-1]["black"] != "":
+        newMove = {"step": data_length, "white": data[data_length-1]["white"], "black": san_string}
+        data[data_length-1] = newMove
+        file.seek(0)
+        json.dump(data, file, indent=2)
+        return True
+      
+      if side == "b":
+        newMove = {"step": data_length, "white": san_string, "black": ""}        
+        data[data_length-1] = newMove
+        file.seek(0)
+        json.dump(data, file, indent=2)
+        return True
+
+  except Exception:
+    return False
 
 def updateLiveMove(fen_string: str, san_string: str):
   """Update the contents of `live_moves.json` file

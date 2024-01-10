@@ -4,5 +4,5 @@
   "promotionNewPiece": "",
   "illegalCorrectMove": "",
   "wrongDetection": false,
-  "cameraStart": false
+  "cameraStart": true
 }
