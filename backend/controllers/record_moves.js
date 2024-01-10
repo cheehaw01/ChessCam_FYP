@@ -160,6 +160,8 @@ const deleteRecordMove = (req, res) => {
         });
       }
 
+      console.log(`Delete move record id-${id}`);
+
       // Send a success response with the deleted record ID
       return res.status(200).json({
         deletedId: id,

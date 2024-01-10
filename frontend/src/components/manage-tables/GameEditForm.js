@@ -42,7 +42,7 @@ function GameEditForm() {
     // api call to update game data
     axios
       .patch(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_GAMES_API_URL}/${formContext.editId}`,
+        `${process.env.REACT_APP_GAMES_API_URL}/${formContext.editId}`,
         data
       )
       .then((res) => {
@@ -50,7 +50,7 @@ function GameEditForm() {
         // api call to update pair data
         axios
           .patch(
-            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PAIRS_API_URL}/${formContext.editId}`,
+            `${process.env.REACT_APP_PAIRS_API_URL}/${formContext.editId}`,
             {
               player_id: pairWhiteId,
               new_player_id: data.playerWhite_id,
@@ -67,7 +67,7 @@ function GameEditForm() {
         // api call to update pair data
         axios
           .patch(
-            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PAIRS_API_URL}/${formContext.editId}`,
+            `${process.env.REACT_APP_PAIRS_API_URL}/${formContext.editId}`,
             {
               player_id: pairBlackId,
               new_player_id: data.playerBlack_id,
@@ -99,9 +99,7 @@ function GameEditForm() {
   useEffect(() => {
     // api call to get tournament data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_TOURNAMENTS_API_URL}`
-      )
+      .get(`${process.env.REACT_APP_TOURNAMENTS_API_URL}`)
       .then((res) => {
         setTournamentsData(res.data.data);
         console.log(res);
@@ -110,9 +108,7 @@ function GameEditForm() {
 
     // api call to get venue data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_VENUES_API_URL}`
-      )
+      .get(`${process.env.REACT_APP_VENUES_API_URL}`)
       .then((res) => {
         setVenuesData(res.data.data);
         console.log(res);
@@ -121,9 +117,7 @@ function GameEditForm() {
 
     // api call to get players data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PLAYERS_API_URL}`
-      )
+      .get(`${process.env.REACT_APP_PLAYERS_API_URL}`)
       .then((res) => {
         setPlayersData(res.data.data);
         console.log(res);
@@ -132,9 +126,7 @@ function GameEditForm() {
 
     // api call to get game data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_GAMES_API_URL}/${formContext.editId}`
-      )
+      .get(`${process.env.REACT_APP_GAMES_API_URL}/${formContext.editId}`)
       .then((res) => {
         // set form values for current game
         setGame(res.data.data);
@@ -148,9 +140,7 @@ function GameEditForm() {
 
     // api call to get pair data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PAIRS_API_URL}/${formContext.editId}`
-      )
+      .get(`${process.env.REACT_APP_PAIRS_API_URL}/${formContext.editId}`)
       .then((res) => {
         setPair(res.data.data);
         pair &&

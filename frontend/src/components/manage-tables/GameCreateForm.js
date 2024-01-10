@@ -36,22 +36,16 @@ function GameCreateForm() {
     console.log(data);
     // api call to create new game data
     axios
-      .post(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_GAMES_API_URL}`,
-        data
-      )
+      .post(`${process.env.REACT_APP_GAMES_API_URL}`, data)
       .then((res) => {
         console.log(res);
         // api call to create new pair data
         axios
-          .post(
-            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PAIRS_API_URL}`,
-            {
-              game_id: res.data.data.game_id,
-              player_id: data.playerWhite_id,
-              side: "white",
-            }
-          )
+          .post(`${process.env.REACT_APP_PAIRS_API_URL}`, {
+            game_id: res.data.data.game_id,
+            player_id: data.playerWhite_id,
+            side: "white",
+          })
           .then((res) => {
             console.log(res);
           })
@@ -61,14 +55,11 @@ function GameCreateForm() {
 
         // api call to create new pair data
         axios
-          .post(
-            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PAIRS_API_URL}`,
-            {
-              game_id: res.data.data.game_id,
-              player_id: data.playerBlack_id,
-              side: "black",
-            }
-          )
+          .post(`${process.env.REACT_APP_PAIRS_API_URL}`, {
+            game_id: res.data.data.game_id,
+            player_id: data.playerBlack_id,
+            side: "black",
+          })
           .then((res) => {
             console.log(res);
           })
@@ -94,9 +85,7 @@ function GameCreateForm() {
   useEffect(() => {
     // api call to get tournament data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_TOURNAMENTS_API_URL}`
-      )
+      .get(`${process.env.REACT_APP_TOURNAMENTS_API_URL}`)
       .then((res) => {
         setTournamentsData(res.data.data);
         console.log(res);
@@ -105,9 +94,7 @@ function GameCreateForm() {
 
     // api call to get venue data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_VENUES_API_URL}`
-      )
+      .get(`${process.env.REACT_APP_VENUES_API_URL}`)
       .then((res) => {
         setVenuesData(res.data.data);
         console.log(res);
@@ -116,9 +103,7 @@ function GameCreateForm() {
 
     // api call to get players data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PLAYERS_API_URL}`
-      )
+      .get(`${process.env.REACT_APP_PLAYERS_API_URL}`)
       .then((res) => {
         setPlayersData(res.data.data);
         console.log(res);

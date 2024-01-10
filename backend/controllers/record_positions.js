@@ -166,6 +166,8 @@ const deleteRecordPosition = (req, res) => {
         });
       }
 
+      console.log(`Delete position record id-${id}`);
+
       // Send a success response with the deleted record ID
       return res.status(200).json({
         deletedId: id,

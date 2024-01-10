@@ -36,19 +36,14 @@ function LiveTimerController(props) {
 
       // Api call for changing the timer status
       axios
-        .post(
-          `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_TIMER_API_URL}/0`
-        )
+        .post(`${process.env.REACT_APP_LIVE_TIMER_API_URL}/0`)
         .then((res) => {
           console.log(res.data);
           // Api call for changing new minute value
           axios
-            .post(
-              `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_TIMER_API_URL}/3`,
-              {
-                time: [minute, "00"],
-              }
-            )
+            .post(`${process.env.REACT_APP_LIVE_TIMER_API_URL}/3`, {
+              time: [minute, "00"],
+            })
             .then((res) => {
               console.log(res.data);
             })

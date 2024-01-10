@@ -34,10 +34,7 @@ function PlayerCreateForm() {
     console.log(data);
     // api call to create new player data
     axios
-      .post(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PLAYERS_API_URL}`,
-        data
-      )
+      .post(`${process.env.REACT_APP_PLAYERS_API_URL}`, data)
       .then((res) => {
         console.log(res);
         setCreateFail(false);

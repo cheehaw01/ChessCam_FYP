@@ -67,9 +67,7 @@ function AdminTable() {
   useEffect(() => {
     // api call for getting admin data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_ADMINS_API_URL}`
-      )
+      .get(`${process.env.REACT_APP_ADMINS_API_URL}`)
       .then((res) => {
         setAdmins(res.data.data);
         setData(res.data.data);

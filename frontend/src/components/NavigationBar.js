@@ -32,9 +32,7 @@ function NavigationBar() {
   const handleLogout = () => {
     // api call for logout
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_AUTHENTICATION_API_URL}/logout`
-      )
+      .get(`${process.env.REACT_APP_AUTHENTICATION_API_URL}/logout`)
       .then((res) => {
         window.location.reload(true);
       })
@@ -47,9 +45,7 @@ function NavigationBar() {
   useEffect(() => {
     // api for authentication
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_AUTHENTICATION_API_URL}`
-      )
+      .get(`${process.env.REACT_APP_AUTHENTICATION_API_URL}`)
       .then((res) => {
         if (res.data.success === 1) {
           setAuth(true);
@@ -89,6 +85,9 @@ function NavigationBar() {
             <Nav.Link className="navbar-link" href="/manage">
               Manage
             </Nav.Link>
+            {/* <Nav.Link className="navbar-link" href="/livecamera">
+              TestCamera
+            </Nav.Link> */}
           </Nav>
         </Navbar.Collapse>
         {auth ? (

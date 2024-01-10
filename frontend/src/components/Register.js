@@ -27,16 +27,14 @@ function Register() {
   const onSubmit = (data) => {
     // api call for number of admin
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_ADMINS_API_URL}/count`
-      )
+      .get(`${process.env.REACT_APP_ADMINS_API_URL}/count`)
       .then((res) => {
         // only allow register with this method if no admin exist
         if (res.data.data < 1) {
           // authentication api for register
           axios
             .post(
-              `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_AUTHENTICATION_API_URL}/register`,
+              `${process.env.REACT_APP_AUTHENTICATION_API_URL}/register`,
               data
             )
             .then((res) => {
@@ -72,9 +70,7 @@ function Register() {
   useEffect(() => {
     // api call for number of admin
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_ADMINS_API_URL}/count`
-      )
+      .get(`${process.env.REACT_APP_ADMINS_API_URL}/count`)
       .then((res) => {
         if (res.data.data > 0) {
           // navigate to register page if no admin

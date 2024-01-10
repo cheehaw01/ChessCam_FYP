@@ -26,9 +26,7 @@ function LiveGameInfoCard(props) {
   useEffect(() => {
     // api call for getting tournament data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_TOURNAMENTS_API_URL}/${tournament_id}`
-      )
+      .get(`${process.env.REACT_APP_TOURNAMENTS_API_URL}/${tournament_id}`)
       .then((res) => {
         console.log(res);
         setTournamentName(res.data.data?.tournament_name || "-");
@@ -39,9 +37,7 @@ function LiveGameInfoCard(props) {
 
     // api call for getting venue data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_VENUES_API_URL}/${venue_id}`
-      )
+      .get(`${process.env.REACT_APP_VENUES_API_URL}/${venue_id}`)
       .then((res) => {
         console.log(res);
         setVenueName(res.data.data?.venue_name || "-");

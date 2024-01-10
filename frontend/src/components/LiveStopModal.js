@@ -27,24 +27,17 @@ function LiveStopModal() {
 
     // Stop Live
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_STATUS_API_URL}/pid`
-      )
+      .get(`${process.env.REACT_APP_LIVE_STATUS_API_URL}/pid`)
       .then((res) => {
         // api to stop detection process
         axios
-          .post(
-            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_DETECTION_API_URL}/stop`,
-            res.data
-          )
+          .post(`${process.env.REACT_APP_DETECTION_API_URL}/stop`, res.data)
           .then((res) => {
             console.log(res.data);
 
             // api to reset the live status
             axios
-              .delete(
-                `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_STATUS_API_URL}`
-              )
+              .delete(`${process.env.REACT_APP_LIVE_STATUS_API_URL}`)
               .then((res) => {
                 console.log(res.data);
               })
@@ -52,9 +45,7 @@ function LiveStopModal() {
 
             // Reset Input Instruction
             axios
-              .delete(
-                `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_INPUT_API_URL}`
-              )
+              .delete(`${process.env.REACT_APP_INPUT_API_URL}`)
               .then((res) => {
                 console.log(res.data);
               })
@@ -63,7 +54,7 @@ function LiveStopModal() {
             // Update game
             axios
               .patch(
-                `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_GAMES_API_URL}/${modalContext.curGameId}`,
+                `${process.env.REACT_APP_GAMES_API_URL}/${modalContext.curGameId}`,
                 {
                   tournament_id: liveContext.curTournamentId,
                   venue_id: liveContext.curVenueId,
@@ -84,7 +75,7 @@ function LiveStopModal() {
             // Update player win count
             axios
               .get(
-                `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PAIRS_API_URL}/${modalContext.curGameId}`
+                `${process.env.REACT_APP_PAIRS_API_URL}/${modalContext.curGameId}`
               )
               .then((res) => {
                 console.log("pair", res.data.data);
@@ -93,13 +84,13 @@ function LiveStopModal() {
                     // api call to get player data
                     axios
                       .get(
-                        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PLAYERS_API_URL}/${item.player_id}`
+                        `${process.env.REACT_APP_PLAYERS_API_URL}/${item.player_id}`
                       )
                       .then((res) => {
                         // api call to update player win count
                         axios
                           .patch(
-                            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PLAYERS_API_URL}/${item.player_id}`,
+                            `${process.env.REACT_APP_PLAYERS_API_URL}/${item.player_id}`,
                             {
                               player_name: res.data.data.player_name,
                               win_count: res.data.data.win_count + 1,
@@ -120,13 +111,13 @@ function LiveStopModal() {
                     // api call to get player data
                     axios
                       .get(
-                        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PLAYERS_API_URL}/${item.player_id}`
+                        `${process.env.REACT_APP_PLAYERS_API_URL}/${item.player_id}`
                       )
                       .then((res) => {
                         // api call to update player lose count
                         axios
                           .patch(
-                            `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PLAYERS_API_URL}/${item.player_id}`,
+                            `${process.env.REACT_APP_PLAYERS_API_URL}/${item.player_id}`,
                             {
                               player_name: res.data.data.player_name,
                               win_count: res.data.data.win_count,
@@ -156,13 +147,11 @@ function LiveStopModal() {
 
             // Save Record - position
             axios
-              .get(
-                `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_POSITIONS_API_URL}`
-              )
+              .get(`${process.env.REACT_APP_LIVE_POSITIONS_API_URL}`)
               .then((res) => {
                 axios
                   .post(
-                    `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_RECORD_POSITIONS_API_URL}/${modalContext.curGameId}`,
+                    `${process.env.REACT_APP_RECORD_POSITIONS_API_URL}/${modalContext.curGameId}`,
                     res.data
                   )
                   .then((res) => {
@@ -176,13 +165,11 @@ function LiveStopModal() {
 
             // Save Record - move
             axios
-              .get(
-                `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_MOVES_API_URL}`
-              )
+              .get(`${process.env.REACT_APP_LIVE_MOVES_API_URL}`)
               .then((res) => {
                 axios
                   .post(
-                    `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_RECORD_MOVES_API_URL}/${modalContext.curGameId}`,
+                    `${process.env.REACT_APP_RECORD_MOVES_API_URL}/${modalContext.curGameId}`,
                     res.data
                   )
                   .then((res) => {

@@ -19,7 +19,7 @@ function PairDeleteModal() {
     // api call to delete pair data
     axios
       .delete(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PAIRS_API_URL}/${modalContext.deleteId.game_id}`,
+        `${process.env.REACT_APP_PAIRS_API_URL}/${modalContext.deleteId.game_id}`,
         { data: { player_id: modalContext.deleteId.player_id } }
       )
       .then((res) => {

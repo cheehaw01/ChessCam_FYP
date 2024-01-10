@@ -28,13 +28,10 @@ function LiveIllegalMoveModal(props) {
   const onSubmit = (data) => {
     console.log("Submitted data", data);
     axios
-      .patch(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_INTERACTION_API_URL}`,
-        {
-          pawnPromotion: "",
-          moveCorrection: data.moveCorrection,
-        }
-      )
+      .patch(`${process.env.REACT_APP_LIVE_INTERACTION_API_URL}`, {
+        pawnPromotion: "",
+        moveCorrection: data.moveCorrection,
+      })
       .then((res) => {
         console.log(res.data);
         illegalMoveModalContext.handlePlay();

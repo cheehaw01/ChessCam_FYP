@@ -18,13 +18,37 @@ function GameDeleteModal() {
 
     // api call to delete game data
     axios
-      .delete(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_GAMES_API_URL}/${modalContext.deleteId}`
-      )
+      .delete(`${process.env.REACT_APP_GAMES_API_URL}/${modalContext.deleteId}`)
       .then((res) => {
         console.log(res);
-        setDeleteFail(false);
-        handleClose();
+
+        // api call to delete position record data
+        axios
+          .delete(
+            `${process.env.REACT_APP_RECORD_POSITIONS_API_URL}/${modalContext.deleteId}`
+          )
+          .then((res) => {
+            console.log(res);
+
+            // api call to delete move record data
+            axios
+              .delete(
+                `${process.env.REACT_APP_RECORD_MOVES_API_URL}/${modalContext.deleteId}`
+              )
+              .then((res) => {
+                console.log(res);
+                setDeleteFail(false);
+                handleClose();
+              })
+              .catch((err) => {
+                setDeleteFail(true);
+                console.log(err);
+              });
+          })
+          .catch((err) => {
+            setDeleteFail(true);
+            console.log(err);
+          });
       })
       .catch((err) => {
         setDeleteFail(true);

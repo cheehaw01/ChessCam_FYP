@@ -31,7 +31,7 @@ function PairEditForm() {
     // api call to update pair data
     axios
       .patch(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PAIRS_API_URL}/${formContext.editId.game_id}`,
+        `${process.env.REACT_APP_PAIRS_API_URL}/${formContext.editId.game_id}`,
         { ...data, player_id: formContext.editId.player_id }
       )
       .then((res) => {
@@ -55,7 +55,7 @@ function PairEditForm() {
     // api call to get pair data
     axios
       .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PAIRS_API_URL}/${formContext.editId.game_id}`
+        `${process.env.REACT_APP_PAIRS_API_URL}/${formContext.editId.game_id}`
       )
       .then((res) => {
         setValue("new_player_id", formContext.editId.player_id);
@@ -65,9 +65,7 @@ function PairEditForm() {
 
     // api call to get players data
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_PLAYERS_API_URL}`
-      )
+      .get(`${process.env.REACT_APP_PLAYERS_API_URL}`)
       .then((res) => {
         setPlayersData(res.data.data);
         console.log(res);

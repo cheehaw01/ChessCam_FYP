@@ -19,9 +19,7 @@ function LiveTimer(props) {
     const interval = setInterval(() => {
       // Call API to read the live time values
       axios
-        .get(
-          `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_TIMER_API_URL}`
-        )
+        .get(`${process.env.REACT_APP_LIVE_TIMER_API_URL}`)
         .then((res) => {
           if (side === "white") {
             setMinutes(res.data.white[0]);

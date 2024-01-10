@@ -50,14 +50,11 @@ function LiveController(props) {
     handlePause();
     illegalMoveModalContext.setShowIllegalMoveModal(true);
     axios
-      .patch(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_LIVE_INTERACTION_API_URL}`,
-        {
-          pawnPromotion: "",
-          moveCorrection: "",
-          wrongDetection: true,
-        }
-      )
+      .patch(`${process.env.REACT_APP_LIVE_INTERACTION_API_URL}`, {
+        pawnPromotion: "",
+        moveCorrection: "",
+        wrongDetection: true,
+      })
       .then((res) => {})
       .catch((err) => {
         console.log(err);
@@ -73,9 +70,7 @@ function LiveController(props) {
   useEffect(() => {
     // authentication api call
     axios
-      .get(
-        `http://${process.env.REACT_APP_API_DOMAIN}:${process.env.REACT_APP_API_PORT}${process.env.REACT_APP_AUTHENTICATION_API_URL}`
-      )
+      .get(`${process.env.REACT_APP_AUTHENTICATION_API_URL}`)
       .then((res) => {
         if (res.data.success === 1) {
           setAuth(true);
