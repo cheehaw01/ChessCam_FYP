@@ -1,7 +1,8 @@
 .env
 node_modules
 python/__pycache__/*
-python/tutorialsession/Lib/*
+python/tutorialsession/*
+python/yolov5/*
 
 
 # other

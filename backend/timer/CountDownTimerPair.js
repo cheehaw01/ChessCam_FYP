@@ -14,35 +14,39 @@ class CountDownTimerPair {
     this.#timerBlack.startInterval();
 
     setInterval(() => {
-      jsonReader(filepath, (err, data) => {
-        if (err) {
-          console.log(err);
-        }
-        // console.log(data);
-        switch (data.turn) {
-          case 4:
-          case 0:
-            // 0 or 4 - stop both white & black
-            this.#timerWhite.stopTimer();
-            this.#timerBlack.stopTimer();
-            break;
-          case 1:
-            // 1 - stop white, start black
-            this.#timerWhite.stopTimer();
-            this.#timerBlack.startTimer();
-            break;
-          case 2:
-            // 2 - start white, stop black
-            this.#timerWhite.startTimer();
-            this.#timerBlack.stopTimer();
-            break;
-          case 3:
-            // 3 - reset timer with value
-            this.#timerWhite.resetTimer(data.white[0], data.white[1]);
-            this.#timerBlack.resetTimer(data.black[0], data.black[1]);
-            break;
-        }
-      });
+      try {
+        jsonReader(filepath, (err, data) => {
+          if (err) {
+            console.log(err);
+          }
+          // console.log(data);
+          switch (data.turn) {
+            case 4:
+            case 0:
+              // 0 or 4 - stop both white & black
+              this.#timerWhite.stopTimer();
+              this.#timerBlack.stopTimer();
+              break;
+            case 1:
+              // 1 - stop white, start black
+              this.#timerWhite.stopTimer();
+              this.#timerBlack.startTimer();
+              break;
+            case 2:
+              // 2 - start white, stop black
+              this.#timerWhite.startTimer();
+              this.#timerBlack.stopTimer();
+              break;
+            case 3:
+              // 3 - reset timer with value
+              this.#timerWhite.resetTimer(data.white[0], data.white[1]);
+              this.#timerBlack.resetTimer(data.black[0], data.black[1]);
+              break;
+          }
+        });
+      } catch (err) {
+        console.log(err);
+      }
 
       if (this.#timerWhite.getStart()) {
         jsonReader(filepath, (err, data) => {
