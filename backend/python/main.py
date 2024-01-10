@@ -16,6 +16,7 @@ model.conf = 0.2
 model.iou = 0.45 
 
 vrb.board = cpi.board_init()
+fdm.updateLivePosition(vrb.board.fen())
 while fdm.readCameraIpAddress == "":
     continue
 url = "https://" + fdm.readCameraIpAddress() +":8080/video"
