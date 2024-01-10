@@ -1,6 +1,6 @@
 {
-  "onLive": true,
-  "pythonProcessPid": 21424,
-  "game_id": 62,
-  "camera_ip": "192.168.1.189"
+  "onLive": false,
+  "pythonProcessPid": null,
+  "game_id": null,
+  "camera_ip": ""
 }

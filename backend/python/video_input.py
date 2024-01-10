@@ -47,6 +47,7 @@ def video_read_board(url,string):
 
 # read video input from cap, capture and return the frame
 def video_read(url,string):
+    fdm.setCameraStart(True)
     onlive = True
     while onlive:
         try:
@@ -72,6 +73,7 @@ def video_read(url,string):
                     if fdm.readTimerButtonInput():
                         cv2.imwrite(string, frame)
                         onlive = False
+                        fdm.setCameraStart(False)
                     elif fdm.readWrongDetection():
                         if not (vrb.board.turn and vrb.board.fullmove_number == 1):
                             cpd.detect_error()
