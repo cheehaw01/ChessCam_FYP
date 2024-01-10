@@ -1,5 +1,8 @@
 .env
 node_modules
+python/__pycache__/*
+python/tutorialsession/Lib/*
+
 
 # other
 unused

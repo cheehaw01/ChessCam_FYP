@@ -1,77 +1,12 @@
 [
   {
     "step": 1,
-    "white": "c4",
-    "black": "d5"
+    "white": "f4",
+    "black": "f5"
   },
   {
     "step": 2,
-    "white": "d3",
-    "black": "e6"
-  },
-  {
-    "step": 3,
-    "white": "b3",
-    "black": "Bb4"
-  },
-  {
-    "step": 4,
-    "white": "bd2",
-    "black": "Qd6"
-  },
-  {
-    "step": 5,
-    "white": "nc3",
-    "black": "Nf6"
-  },
-  {
-    "step": 6,
-    "white": "c4",
-    "black": "d5"
-  },
-  {
-    "step": 7,
-    "white": "d3",
-    "black": "e6"
-  },
-  {
-    "step": 8,
-    "white": "b3",
-    "black": "Bb4"
-  },
-  {
-    "step": 9,
-    "white": "bd2",
-    "black": "Qd6"
-  },
-  {
-    "step": 10,
-    "white": "nc3",
-    "black": "Nf6"
-  },
-  {
-    "step": 11,
-    "white": "c4",
-    "black": "d5"
-  },
-  {
-    "step": 12,
-    "white": "d3",
-    "black": "e6"
-  },
-  {
-    "step": 13,
-    "white": "b3",
-    "black": "Bb4"
-  },
-  {
-    "step": 14,
-    "white": "bd2",
-    "black": "Qd6"
-  },
-  {
-    "step": 15,
-    "white": "nc3",
+    "white": "e3",
     "black": "Nf6"
   }
 ]
