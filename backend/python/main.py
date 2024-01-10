@@ -36,6 +36,8 @@ cpi.cell_name()
 vrb.cell_prev = vrb.cell_init.copy()
 
 while(play):
+    print(vrb.board)
+    sys.stdout.flush()
     #print('previous cell:')
     #for i in range(8):
     #    for j in range(8):
@@ -121,11 +123,13 @@ while(play):
             fdm.updateLiveMove(vrb.board.fen(),san_notation)
             print(vrb.board)
         else:
-            print('No changes detected!\nPlease key in your movement' )
             enter = True
             while enter:
                 try:
-                    vrb.move = input('Enter movement e.g.  a2c2\n:')
+                    vrb.move = ""
+                    fdm.setIllegalMove(True)
+                    while vrb.move == "":
+                        vrb.move = fdm.readIllegalCorrectMove()
                     vrb.moves = chess.Move.from_uci(vrb.move)
                     if vrb.board.is_legal(vrb.moves):
                         print(vrb.move)
@@ -150,7 +154,7 @@ while(play):
                         fdm.updateLiveMove(vrb.board.fen(),san_notation)
                         enter = False
                     else:
-                        print("Invalid move. Please try again.")
+                        continue
                 except chess.InvalidMoveError:
                     print("Invalid UCI move. Please enter a valid UCI move.")
     else:

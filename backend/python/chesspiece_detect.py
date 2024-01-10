@@ -1,7 +1,9 @@
 import chess
 import variable as vrb
+import file_data_module as fdm
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
+import sys
 
 def middle(p1,p2,p3):
     val = ((p2[0] - p1[0])*(p3[1] - p1[1]) - (p2[1] - p1[1])*(p3[0] - p1[0]))
@@ -54,7 +56,7 @@ def initialize():
                 vrb.cell_temp[i][j][k+9] = 0
                 vrb.cell_trans[i][j][k+9] = 0
     vrb.move_string = None
-    vrb.move = None
+    vrb.move = ""
     vrb.moves = None
     vrb.v_move_clist.clear()
     vrb.v_move_dlist.clear()
@@ -176,14 +178,6 @@ def white_castle():
     return False
 
 def check_move():
-    print('Previous Cell:')
-    for a in range(8):
-        for b in range(8):
-            print(vrb.cell_prev[a][b])
-    print('\nTransition Cell:')
-    for a in range(8):
-        for b in range(8):
-            print(vrb.cell_trans[a][b])
     if vrb.board.turn:
         color = 'white'
     else:
@@ -258,12 +252,16 @@ def check_move():
                 continue
 
 def detect_error():
+    print ("Hi hi hi")
+    sys.stdout.flush()
     vrb.board.pop()
     vrb.cell_prev = vrb.cell_prev_backup.copy()
     enter = True
     while enter:
         try:
-            vrb.move = input('Enter movement e.g.  a2c2\n:')
+            vrb.move = "" 
+            while vrb.move == "":
+                vrb.move = fdm.readIllegalCorrectMove()
             vrb.moves = chess.Move.from_uci(vrb.move)
             if vrb.board.is_legal(vrb.moves):
                 part1 = vrb.move[:2]
@@ -281,7 +279,11 @@ def detect_error():
                                         vrb.cell_prev[i][j][10] = 0
                                         vrb.cell_prev[i][j][11] = 0
                                         vrb.cell_prev[i][j][12] = 0
-                vrb.board.push(vrb.move)
+                san_notation = vrb.board.san(vrb.moves)
+                vrb.board.push(vrb.moves)
+                print(vrb.board)
+                fdm.fixLivePosition(vrb.board.fen())
+                fdm.fixLiveMove(vrb.board.fen(),san_notation)
                 enter = False
             else:
                 vrb.move = None

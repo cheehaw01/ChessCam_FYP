@@ -1,46 +1,68 @@
 [
   {
-    "fen": "rnbqkbnr/pppppppp/8/8/5P2/8/PPPPP1PP/RNBQKBNR b KQkq - 0 1",
+    "fen": "rnbqkbnr/pppppppp/8/8/8/5P2/PPPPP1PP/RNBQKBNR b KQkq - 0 1",
     "white": [
       "20",
       "00"
     ],
     "black": [
       "19",
-      "57"
+      "49"
     ]
   },
   {
-    "fen": "rnbqkbnr/ppppp1pp/8/5p2/5P2/8/PPPPP1PP/RNBQKBNR w KQkq - 0 2",
+    "fen": "rnbqkbnr/ppppp1pp/8/5p2/8/5P2/PPPPP1PP/RNBQKBNR w KQkq - 0 2",
     "white": [
       "19",
-      "57"
+      "58"
     ],
     "black": [
       "19",
-      "46"
+      "27"
     ]
   },
   {
-    "fen": "rnbqkbnr/ppppp1pp/8/5p2/5P2/4P3/PPPP2PP/RNBQKBNR b KQkq - 0 2",
+    "fen": "rnbqkbnr/ppppp1pp/8/5p2/8/5P1N/PPPPP1PP/RNBQKB1R b KQkq - 1 2",
     "white": [
-      "19",
-      "47"
-    ],
-    "black": [
-      "19",
-      "43"
-    ]
-  },
-  {
-    "fen": "rnbqkb1r/ppppp1pp/5n2/5p2/5P2/4P3/PPPP2PP/RNBQKBNR w KQkq - 1 3",
-    "white": [
-      "19",
-      "44"
-    ],
-    "black": [
       "19",
       "30"
+    ],
+    "black": [
+      "19",
+      "23"
+    ]
+  },
+  {
+    "fen": "rnbqkb1r/ppppp1pp/5n2/5p2/8/5P1N/PPPPP1PP/RNBQKB1R w KQkq - 2 3",
+    "white": [
+      "19",
+      "27"
+    ],
+    "black": [
+      "19",
+      "12"
+    ]
+  },
+  {
+    "fen": "rnbqkb1r/ppppp1pp/5n2/5p2/5N2/5P2/PPPPP1PP/RNBQKB1R b KQkq - 3 3",
+    "white": [
+      "18",
+      "43"
+    ],
+    "black": [
+      "18",
+      "58"
+    ]
+  },
+  {
+    "fen": "rnbqkb1r/ppppp1pp/8/5p2/5Nn1/5P2/PPPPP1PP/RNBQKB1R w KQkq - 4 4",
+    "white": [
+      "18",
+      "40"
+    ],
+    "black": [
+      "18",
+      "41"
     ]
   }
 ]

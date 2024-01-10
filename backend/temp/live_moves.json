@@ -1,12 +1,17 @@
 [
   {
     "step": 1,
-    "white": "f4",
+    "white": "f3",
     "black": "f5"
   },
   {
     "step": 2,
-    "white": "e3",
+    "white": "Nh3",
     "black": "Nf6"
+  },
+  {
+    "step": 3,
+    "white": "Nf4",
+    "black": "Ng4"
   }
 ]

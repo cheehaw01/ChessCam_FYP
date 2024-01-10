@@ -34,8 +34,7 @@ def video_read_board(url,string):
 
         except ConnectionError as e:
             # Handle the connection error
-            print(f"Connection error: {e}")
-            print("Retrying in 3 seconds...")
+            print(f"Connection error: {e}\n Retrying in 3 seconds..." )
             time.sleep(3)
         except Exception as e:
             # Handle other exceptions
@@ -48,8 +47,8 @@ def video_read_board(url,string):
 
 # read video input from cap, capture and return the frame
 def video_read(url,string):
-    capture = True
-    while capture:
+    onlive = True
+    while onlive:
         try:
             # Attempt to connect to the camera
             cap = cv2.VideoCapture(url)
@@ -62,24 +61,23 @@ def video_read(url,string):
             if not (vrb.board.turn and vrb.board.fullmove_number == 1):
                 print('If the detection is wrong, please press e to change the movement:')
             # If the connection is successful, start capturing frames
-            while True:
+            while onlive:
                 ret, frame = cap.read()
                 if not ret:
                     raise ConnectionError("Error reading frame from the camera.")
 
                 if ret == True:
                     cv2.imshow('Frame', frame)
+                    cv2.waitKey(1)
                     if fdm.readTimerButtonInput():
                         cv2.imwrite(string, frame)
-                        capture = False
+                        onlive = False
                     elif fdm.readWrongDetection():
                         if not (vrb.board.turn and vrb.board.fullmove_number == 1):
                             cpd.detect_error()
                         else:
                             print('The game is not started yet!')
-                if not capture:
-                    break
-                # Add a delay to control frame rate
+                    
 
         except ConnectionError as e:
             # Handle the connection error
