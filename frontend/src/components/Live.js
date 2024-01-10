@@ -91,7 +91,6 @@ function Live() {
   // function - toggle timer
   const handleTimerClick = () => {
     if (cameraStart) {
-      console.log("Pressed");
       // Call API for updating capture image instruction
       // axios
       //   .patch(`${process.env.REACT_APP_CAMERA_API_URL}/image/1`)
@@ -189,7 +188,6 @@ function Live() {
             setShowPromotionModal(true);
           }
           setCameraStart(res.data.cameraStart);
-          console.log("camera asdasdasd", res.data.cameraStart);
         })
         .catch((err) => console.log(err));
     }, 1000);
