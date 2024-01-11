@@ -383,3 +383,15 @@ def setCameraStart(value : bool):
         return True
   except:
     return False
+  
+def setTimerButtonInput(value : bool):
+  try:
+    # Open the live interaction file to override the new camera start trigger
+    with open(INPUT_FILENAME) as file:
+      data = json.load(file)
+      data['timerButton'] = value
+      with open(INTERACTION_FILENAME, 'w') as writeFile:
+        json.dump(data, writeFile, indent=2)
+        return True
+  except:
+    return False

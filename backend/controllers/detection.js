@@ -4,7 +4,7 @@ const { spawn } = require("child_process");
 
 const filepath = "./temp/live_status.json";
 const detectionProgramTopFilePath = "./python/simulate_fen_san_with_input.py";
-const detectionProgramSideFilePath = "./python/main.py";
+const detectionProgramSideFilePath = "./python/sideview/main.py";
 
 
 /**

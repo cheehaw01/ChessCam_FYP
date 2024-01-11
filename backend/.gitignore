@@ -1,7 +1,10 @@
 .env
 node_modules
 python/__pycache__/*
-python/tutorialsession/*
+python/sideview/tutorialsession/*
+python/sdeview/yolov5/*
+board_detect.jpg
+Next_Image.jpg
 
 
 # other
