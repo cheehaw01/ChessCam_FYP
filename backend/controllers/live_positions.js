@@ -49,7 +49,7 @@ const getLivePosition = (req, res) => {
     const { index } = req.params;
 
     // Log the retrieved data of the specified index
-    console.log(data[index]);
+    // console.log(data[index]);
 
     // Return the data as a JSON response
     return res.status(200).json(data[index]);
