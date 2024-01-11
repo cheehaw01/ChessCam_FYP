@@ -56,7 +56,9 @@ function Live() {
       .patch(`${process.env.REACT_APP_INPUT_API_URL}/1`)
       .then((res) => {
         console.log(res.data);
-        setTimerClicked(false);
+        setTimeout(() => {
+          setTimerClicked(false);
+        }, 600);
       })
       .catch((err) => console.log(err));
   };
@@ -308,6 +310,7 @@ function Live() {
                       cameraStart
                     }
                     auth={auth}
+                    timerClicked={timerClicked}
                   >
                     <LiveTimer side="black" />
                   </LivePlayerInfoCard>
@@ -333,6 +336,7 @@ function Live() {
                       cameraStart
                     }
                     auth={auth}
+                    timerClicked={timerClicked}
                   >
                     <LiveTimer side="white" />
                   </LivePlayerInfoCard>
@@ -391,7 +395,6 @@ function Live() {
                   timerStatus={timerStatus}
                   setDefaultTimerValues={setDefaultTimerValues}
                   handlePostTimeApiCall={handlePostTimeApiCall}
-                  handlePause={handlePause}
                 />
                 <LiveForm />
                 <LiveStopModal />
