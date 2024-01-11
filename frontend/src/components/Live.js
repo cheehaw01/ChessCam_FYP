@@ -43,6 +43,7 @@ function Live() {
   const [timerStatus, setTimerStatus] = useState(0);
   const [defaultTimerValues, setDefaultTimerValues] = useState(["20", "00"]);
   const [cameraStart, setCameraStart] = useState(false);
+  const [timerClicked, setTimerClicked] = useState(false);
   const [auth, setAuth] = useState(false);
 
   // cross-site Access-Control requests with credentials
@@ -55,6 +56,7 @@ function Live() {
       .patch(`${process.env.REACT_APP_INPUT_API_URL}/1`)
       .then((res) => {
         console.log(res.data);
+        setTimerClicked(false);
       })
       .catch((err) => console.log(err));
   };
@@ -90,7 +92,9 @@ function Live() {
 
   // function - toggle timer
   const handleTimerClick = () => {
-    if (cameraStart) {
+    if (cameraStart && !timerClicked) {
+      setTimerClicked(true);
+
       // Call API for updating capture image instruction
       // axios
       //   .patch(`${process.env.REACT_APP_CAMERA_API_URL}/image/1`)
