@@ -21,7 +21,7 @@ const getTimerStatus = (req, res) => {
       return res.status(500).json([]);
     }
     // Log the retrieved data
-    console.log(data);
+    // console.log(data);
 
     // Return the timer status information as a JSON response
     return res.status(200).json({

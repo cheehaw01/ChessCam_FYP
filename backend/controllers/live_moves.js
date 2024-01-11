@@ -27,7 +27,8 @@ const getAllLiveMoves = (req, res) => {
       });
     }
     // Log the retrieved data
-    console.log(data);
+    // console.log(data);
+
     // Return the data as a JSON response
     return res.status(200).json(data);
   });
