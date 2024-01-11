@@ -1,6 +1,7 @@
 .env
 node_modules
 python/__pycache__/*
+python/sideview/__pycache__/*
 python/sideview/tutorialsession/*
 python/sdeview/yolov5/*
 board_detect.jpg
