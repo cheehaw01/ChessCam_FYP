@@ -342,7 +342,7 @@ entries = [
   }
 ]
 
-print("Run: simulate_fen_san_with_input.py")
+print("Run: test_fen_san_with_input.py")
 
 while fd.readCameraIpAddress == "":
   print("Empty IP address")
