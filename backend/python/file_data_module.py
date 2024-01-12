@@ -231,7 +231,7 @@ def readCameraIpAddress():
       data = json.load(file)
       return data['camera_ip']
   except:
-    return "Error - Failed to read file."
+    return ""
   
 
 def setPromotion(value : bool):
@@ -306,7 +306,7 @@ def readPromotionNewPiece():
           json.dump(data, writeFile, indent=2)
       return new_piece
   except:
-    return "Error - Failed to read file."
+    return ""
   
 
 def readIllegalCorrectMove():
@@ -332,7 +332,7 @@ def readIllegalCorrectMove():
           json.dump(data, writeFile, indent=2)
       return correct_move
   except:
-    return "Error - Failed to read file."
+    return ""
   
 
 def readWrongDetection():
