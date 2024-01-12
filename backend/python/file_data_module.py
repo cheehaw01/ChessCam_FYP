@@ -10,7 +10,10 @@ functions:
 
     * updateLivePosition      - modified live_positions.json file
     * updateLiveMove          - modified live_moves.json file
+    * fixLivePosition         - modified live_positions.json file (trigger by button)
+    * fixLiveMove             - modified live_moves.json file (trigger by button)
     * readTimerButtonInput    - read button timer pressed
+    * setTimerButoonInput     - set button timer value
     * readCameraIpAddress     - read camera ip address
     * setPromotion            - set promotion trigger value of live_interaction.json file
     * setIllegalMove          - set illegal move trigger value of live_interaction.json file
@@ -72,8 +75,79 @@ def updateLivePosition(fen_string: str):
       return True
   except Exception:
     return False
+  
+
+def updateLiveMove(fen_string: str, san_string: str):
+  """Update the contents of `live_moves.json` file
+
+    Parameters
+    ----------
+    fen_string : str
+        string in FEN notation
+    san_string : str
+        string in SAN notation
+
+    Returns
+    -------
+    success or fail: bool
+    """
+
+  try:
+    # Split FEN string with space (" ")
+    fen_string_parts = fen_string.split()
+    position_only = fen_string_parts[0]
+    side = fen_string_parts[1]
+
+    # Open the move file to append the new data
+    with open(MOVE_FILENAME) as file:
+      data = json.load(file)
+      data_length = len(data)
+
+      # If it is initial position, no record
+      if position_only == "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR":
+        return False
+
+      # Append new object to json file (white move)
+      if data_length == 0 or side == "b":
+        newMove = {"step": data_length+1, "white": san_string, "black": ""}
+        data.append(newMove)
+        with open(MOVE_FILENAME, 'w') as writeFile:
+          json.dump(data, writeFile, indent=2)
+          return True
+      
+      # Modify the last object of an array in json file (black move after white)
+      if side == "w" and data[data_length-1]["black"] == "":
+        newMove = {"step": data_length, "white": data[data_length-1]["white"], "black": san_string}
+        data[data_length-1] = newMove
+        with open(MOVE_FILENAME, 'w') as writeFile:
+          json.dump(data, writeFile, indent=2)
+          return True
+      
+      # Append new object to json file (black move)
+      if side == "w":
+        newMove = {"step": data_length+1, "white": "", "black": san_string}
+        data.append(newMove)
+        with open(MOVE_FILENAME, 'w') as writeFile:
+          json.dump(data, writeFile, indent=2)
+          return True
+  except Exception:
+    return False
+
 
 def fixLivePosition(fen_string: str):
+  """Update the contents of `live_positions.json` file. 
+    (Use for wrong detection button pressed)
+
+    Parameters
+    ----------
+    fen_string : str
+        string in FEN notation
+
+    Returns
+    -------
+    success or fail : bool
+    """
+
   try:
 
     # Opening timer JSON file
@@ -100,36 +174,8 @@ def fixLivePosition(fen_string: str):
     return False
 
 def fixLiveMove(fen_string: str, san_string: str):
-  try:
-    # Split FEN string with space (" ")
-    fen_string_parts = fen_string.split()
-    position_only = fen_string_parts[0]
-    side = fen_string_parts[1]
-
-    # Open the move file to append the new data
-    with open(MOVE_FILENAME, "r+") as file:
-      data = json.load(file)
-      data_length = len(data)
-
-      if side == "w" and data [data_length-1]["black"] != "":
-        newMove = {"step": data_length, "white": data[data_length-1]["white"], "black": san_string}
-        data[data_length-1] = newMove
-        file.seek(0)
-        json.dump(data, file, indent=2)
-        return True
-      
-      if side == "b":
-        newMove = {"step": data_length, "white": san_string, "black": ""}        
-        data[data_length-1] = newMove
-        file.seek(0)
-        json.dump(data, file, indent=2)
-        return True
-
-  except Exception:
-    return False
-
-def updateLiveMove(fen_string: str, san_string: str):
-  """Update the contents of `live_moves.json` file
+  """Update the contents of `live_moves.json` file.
+    (Use for wrong detection button pressed)
 
     Parameters
     ----------
@@ -146,41 +192,27 @@ def updateLiveMove(fen_string: str, san_string: str):
   try:
     # Split FEN string with space (" ")
     fen_string_parts = fen_string.split()
-    position_only = fen_string_parts[0]
     side = fen_string_parts[1]
 
     # Open the move file to append the new data
-    with open(MOVE_FILENAME, "r+") as file:
+    with open(MOVE_FILENAME) as file:
       data = json.load(file)
       data_length = len(data)
 
-      # If it is initial position, no record
-      if position_only == "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR":
-        return False
-
-      # Append new object to json file (white move)
-      if data_length == 0 or side == "b":
-        newMove = {"step": data_length+1, "white": san_string, "black": ""}
-        data.append(newMove)
-        file.seek(0)
-        json.dump(data, file, indent=2)
-        return True
-      
-      # Modify the last object of an array in json file (black move after white)
-      if side == "w" and data[data_length-1]["black"] == "":
+      if side == "w" and data [data_length-1]["black"] != "":
         newMove = {"step": data_length, "white": data[data_length-1]["white"], "black": san_string}
         data[data_length-1] = newMove
-        file.seek(0)
-        json.dump(data, file, indent=2)
-        return True
+        with open(MOVE_FILENAME, 'w') as writeFile:
+          json.dump(data, writeFile, indent=2)
+          return True
       
-      # Append new object to json file (black move)
-      if side == "w":
-        newMove = {"step": data_length+1, "white": "", "black": san_string}
-        data.append(newMove)
-        file.seek(0)
-        json.dump(data, file, indent=2)
-        return True
+      if side == "b":
+        newMove = {"step": data_length, "white": san_string, "black": ""}        
+        data[data_length-1] = newMove
+        with open(MOVE_FILENAME, 'w') as writeFile:
+          json.dump(data, writeFile, indent=2)
+          return True
+
   except Exception:
     return False
 
@@ -212,6 +244,30 @@ def readTimerButtonInput():
   except:
     return False
   
+
+def setTimerButtonInput(value : bool):
+  """Set the input instruction in `input.json` file
+
+    Parameters
+    ----------
+    value : bool
+
+    Returns
+    -------
+    success or fail : bool
+    """
+  
+  try:
+    # Open the input file to override the new input instruction
+    with open(INPUT_FILENAME) as file:
+      data = json.load(file)
+      data['timerButton'] = value
+      with open(INPUT_FILENAME, 'w') as writeFile:
+        json.dump(data, writeFile, indent=2)
+        return True
+  except:
+    return False
+
 
 def readCameraIpAddress():
   """Read the camera ip address in `live_status.json` file
@@ -384,14 +440,4 @@ def setCameraStart(value : bool):
   except:
     return False
   
-def setTimerButtonInput(value : bool):
-  try:
-    # Open the live interaction file to override the new camera start trigger
-    with open(INPUT_FILENAME) as file:
-      data = json.load(file)
-      data['timerButton'] = value
-      with open(INTERACTION_FILENAME, 'w') as writeFile:
-        json.dump(data, writeFile, indent=2)
-        return True
-  except:
-    return False
+  
