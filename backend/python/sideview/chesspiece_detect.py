@@ -129,10 +129,10 @@ def black_castle():
                         vrb.move_string = 'O-O-O'
                         vrb.move = 'e8c8'
                         vrb.moves = chess.Move.from_uci(vrb.move)
-                        vrb.cell_prev[0][0][9],vrb.cell_prev[0][0][11] = 0,0
-                        vrb.cell_prev[0][2][9],vrb.cell_prev[0][2][11] = True, 'k'
-                        vrb.cell_prev[0][3][9],vrb.cell_prev[0][3][11] = True, 'r'
-                        vrb.cell_prev[0][4][9],vrb.cell_prev[0][4][11] = 0,0
+                        vrb.cell_prev[0][0][9],vrb.cell_prev[0][0][11],vrb.cell_prev[0][0][12] = 0,0,0
+                        vrb.cell_prev[0][2][9],vrb.cell_prev[0][2][11],vrb.cell_prev[0][2][12] = True, 'k', 'black'
+                        vrb.cell_prev[0][3][9],vrb.cell_prev[0][3][11],vrb.cell_prev[0][3][12] = True, 'r', 'black'
+                        vrb.cell_prev[0][4][9],vrb.cell_prev[0][4][11],vrb.cell_prev[0][4][12] = 0,0,0
                         return True                   
     if vrb.board.has_kingside_castling_rights(chess.BLACK) == True:
         if vrb.cell_prev[0][4][9] == True and vrb.cell_prev[0][7][9] == True:
@@ -142,10 +142,10 @@ def black_castle():
                         vrb.move_string = 'O-O'
                         vrb.move = 'e8g8'
                         vrb.moves = chess.Move.from_uci(vrb.move)
-                        vrb.cell_prev[0][4][9],vrb.cell_prev[0][4][11] = 0,0
-                        vrb.cell_prev[0][5][9],vrb.cell_prev[0][5][11] = True, 'r'
-                        vrb.cell_prev[0][6][9],vrb.cell_prev[0][6][11] = True, 'k'
-                        vrb.cell_prev[0][7][9],vrb.cell_prev[0][7][11] = 0,0
+                        vrb.cell_prev[0][4][9],vrb.cell_prev[0][4][11],vrb.cell_prev[0][4][12] = 0,0,0
+                        vrb.cell_prev[0][5][9],vrb.cell_prev[0][5][11],vrb.cell_prev[0][5][12] = True, 'r', 'black'
+                        vrb.cell_prev[0][6][9],vrb.cell_prev[0][6][11],vrb.cell_prev[0][6][12] = True, 'k', 'black'
+                        vrb.cell_prev[0][7][9],vrb.cell_prev[0][7][11],vrb.cell_prev[0][7][12] = 0,0,0
                         return True
     return False
     
@@ -159,11 +159,11 @@ def white_castle():
                         vrb.move_string = 'O-O-O'
                         vrb.move = 'e1c1'
                         vrb.moves = chess.Move.from_uci(vrb.move)
-                        vrb.cell_prev[7][0][9],vrb.cell_prev[7][0][11] = 0,0
-                        vrb.cell_prev[7][2][9],vrb.cell_prev[7][2][11] = True, 'k'
-                        vrb.cell_prev[7][3][9],vrb.cell_prev[7][3][11] = True, 'r'
-                        vrb.cell_prev[7][4][9],vrb.cell_prev[7][4][11] = 0,0
-                        return True                   
+                        vrb.cell_prev[7][0][9],vrb.cell_prev[7][0][11],vrb.cell_prev[7][0][12] = 0,0,0
+                        vrb.cell_prev[7][2][9],vrb.cell_prev[7][2][11],vrb.cell_prev[7][2][12] = True, 'k', 'white'
+                        vrb.cell_prev[7][3][9],vrb.cell_prev[7][3][11],vrb.cell_prev[7][3][12] = True, 'r', 'white'
+                        vrb.cell_prev[7][4][9],vrb.cell_prev[7][4][11],vrb.cell_prev[7][4][12] = 0,0,0
+                        return True            
     if vrb.board.has_kingside_castling_rights(chess.WHITE):
         if vrb.cell_prev[7][4][9] == True and vrb.cell_prev[7][7][9] == True:
             if vrb.cell_prev[7][5][9] == 0 and vrb.cell_prev[7][6][9] == 0:
@@ -172,10 +172,10 @@ def white_castle():
                         vrb.move_string = 'O-O'
                         vrb.move = 'e1g1'
                         vrb.moves = chess.Move.from_uci(vrb.move)
-                        vrb.cell_prev[7][4][9],vrb.cell_prev[7][4][11] = 0,0
-                        vrb.cell_prev[7][5][9],vrb.cell_prev[7][5][11] = True, 'r'
-                        vrb.cell_prev[7][6][9],vrb.cell_prev[7][6][11] = True, 'k'
-                        vrb.cell_prev[7][7][9],vrb.cell_prev[7][7][11] = 0,0
+                        vrb.cell_prev[7][4][9],vrb.cell_prev[7][4][11],vrb.cell_prev[7][4][12] = 0,0,0
+                        vrb.cell_prev[7][5][9],vrb.cell_prev[7][5][11],vrb.cell_prev[7][5][12] = True, 'r', 'white'
+                        vrb.cell_prev[7][6][9],vrb.cell_prev[7][6][11],vrb.cell_prev[7][6][12] = True, 'k', 'white'
+                        vrb.cell_prev[7][7][9],vrb.cell_prev[7][7][11],vrb.cell_prev[7][7][12] = 0,0,0
                         return True
     return False
 
