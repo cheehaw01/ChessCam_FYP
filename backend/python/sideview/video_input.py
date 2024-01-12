@@ -26,7 +26,7 @@ def video_read_board(url,string):
                     raise ConnectionError("Error reading frame from the camera.")
 
                 if ret == True:
-                    cv2.imshow('ChessBoard ', frame)
+                    cv2.imshow('Press \"C\" to capture chessboard ', frame)
                     key = cv2.waitKey(1)
                     if key == ord('c'):
                         cv2.imwrite(string, frame)
@@ -63,8 +63,8 @@ def video_read(url,string):
             if not cap.isOpened():
                 raise ConnectionError("Camera connection failed.")
 
-            if not (vrb.board.turn and vrb.board.fullmove_number == 1):
-                print('If the detection is wrong, please press e to change the movement:')
+            #if not (vrb.board.turn and vrb.board.fullmove_number == 1):
+            #    print('If the detection is wrong, please press e to change the movement:')
             # If the connection is successful, start capturing frames
             while onlive:
                 ret, frame = cap.read()
@@ -72,7 +72,7 @@ def video_read(url,string):
                     raise ConnectionError("Error reading frame from the camera.")
 
                 if ret == True:
-                    cv2.imshow('Frame', frame)
+                    cv2.imshow('Game Start', frame)
                     cv2.waitKey(1)
                     if fdm.readTimerButtonInput():
                         cv2.imwrite(string, frame)

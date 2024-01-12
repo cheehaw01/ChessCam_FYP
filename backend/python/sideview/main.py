@@ -38,8 +38,8 @@ cpi.cell_name()
 vrb.cell_prev = vrb.cell_init.copy()
 
 while(play):
-    print(vrb.board)
-    sys.stdout.flush()
+    #print(vrb.board)
+    #sys.stdout.flush()
     #print('previous cell:')
     #for i in range(8):
     #    for j in range(8):
@@ -174,6 +174,7 @@ while(play):
         if res.winner is not None:
             winner_color = "White" if res.winner == chess.WHITE else "Black"
             print(f"{winner_color} wins!")
+            play = False
         else:
             print("The game is a draw.")
             play = False
