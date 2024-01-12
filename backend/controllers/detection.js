@@ -3,7 +3,7 @@ const fs = require("fs");
 const { spawn } = require("child_process");
 
 const filepath = "./temp/live_status.json";
-const detectionProgramTopFilePath = "./python/simulate_fen_san_with_input.py";
+const detectionProgramTopFilePath = "./python/topview/Game.py";
 const detectionProgramSideFilePath = "./python/sideview/main.py";
 
 
