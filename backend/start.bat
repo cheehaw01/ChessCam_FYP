@@ -1,4 +1,4 @@
 npm run build
 
-rem Now starting server
-npm run start
+rem Now starting https server
+npm run starthttps
