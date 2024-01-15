@@ -16,7 +16,7 @@ const getAllVenues = async (req, res) => {
     const [rows, fields] = await pool.query(`SELECT * FROM venue`);
 
     // Log the retrieved data
-    console.log(rows);
+    // console.log(rows);
 
     // Return a success response with the retrieved data
     return res.status(200).json({
