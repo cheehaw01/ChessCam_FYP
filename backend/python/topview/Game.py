@@ -86,7 +86,8 @@ cv2.waitKey(0)
 cv2.destroyAllWindows()
 
 engBoard = chess.Board()
-
+fen_string = engBoard.fen()
+DataModule.updateLivePosition(fen_string)
 
 while True:
     DataModule.setCameraStart(True)
