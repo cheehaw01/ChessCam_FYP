@@ -232,7 +232,13 @@ class Board:
             if promoPiece is not None:
                 if promoPiece == "Queen":
                     promoChoice = "q"
-                    self.move = squareOne.position + squareTwo.position + promoChoice
+                elif promoPiece == "Rook":
+                    promoChoice = "r"
+                elif promoPiece == "Bishop":
+                    promoChoice = "b"
+                elif promoPiece == "Knight":
+                    promoChoice = "n"
+                self.move = squareOne.position + squareTwo.position + promoChoice
             else:
                 self.move = squareOne.position + squareTwo.position
 
@@ -265,7 +271,13 @@ class Board:
             if promoPiece is not None:
                 if promoPiece == "Queen":
                     promoChoice = "q"
-                    self.move = squareTwo.position + squareOne.position + promoChoice
+                if promoPiece == "Rook":
+                    promoChoice = "r"
+                if promoPiece == "Bishop":
+                    promoChoice = "b"
+                if promoPiece == "Knight":
+                    promoChoice = "n"
+                self.move = squareTwo.position + squareOne.position + promoChoice
             else:
                 self.move = squareTwo.position + squareOne.position
 
