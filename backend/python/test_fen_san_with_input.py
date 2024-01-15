@@ -348,6 +348,7 @@ while fd.readCameraIpAddress == "":
   print("Empty IP address")
 
 print("Camera IP address: ", fd.readCameraIpAddress)
+print("Camera start: ", fd.setCameraStart(True))
 
 for i in range(len(entries)):
   if i == 0:

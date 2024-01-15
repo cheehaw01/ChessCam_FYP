@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import DataTable from "react-data-table-component";
 import { LiveContext } from "./Live";
 
@@ -7,6 +7,10 @@ import { LiveContext } from "./Live";
 function LiveMovesTable(props) {
   // add states
   const [moves, setMoves] = useState([]);
+  const [trackMove, setTrackMove] = useState(true);
+
+  // reference to the bottom element
+  const bottomRef = useRef(null);
 
   // read and subscribe to context
   const liveContext = useContext(LiveContext);
@@ -21,6 +25,12 @@ function LiveMovesTable(props) {
           .then((res) => {
             setMoves(res.data);
             console.log(res.data);
+            if (trackMove) {
+              bottomRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }
           })
           .catch((err) => {
             console.log(err);
@@ -31,13 +41,23 @@ function LiveMovesTable(props) {
     return () => {
       clearInterval(moveReader);
     };
-  }, [moves, liveContext]);
+  }, [moves, trackMove, liveContext]);
 
   // table column definition
   const columns = [
     {
       name: "#",
-      selector: (row) => row.step,
+      selector: (row) => <div ref={bottomRef}>{row.step}</div>,
+      conditionalCellStyles: [
+        {
+          when: (row) => row.step === moves.length,
+          style: {
+            backgroundColor: "#cccccc",
+            transform: "scale(1.1, 1.1)",
+            transition: "0.2s",
+          },
+        },
+      ],
     },
     {
       name: "white",
@@ -53,7 +73,7 @@ function LiveMovesTable(props) {
   const tableStyles = {
     table: {
       style: {
-        maxHeight: props.height,
+        maxHeight: props.height - 30,
       },
     },
     headCells: {
@@ -66,6 +86,10 @@ function LiveMovesTable(props) {
         fontSize: 16,
       },
     },
+  };
+
+  const handleTrackMoveChange = (e) => {
+    setTrackMove(e.target.checked);
   };
 
   // render
@@ -81,6 +105,19 @@ function LiveMovesTable(props) {
         fixedHeader
         customStyles={tableStyles}
       ></DataTable>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value={trackMove}
+          id="trackMoveCheck"
+          defaultChecked={trackMove}
+          onChange={handleTrackMoveChange}
+        ></input>
+        <label class="form-check-label" for="trackMoveCheck">
+          Track New Move
+        </label>
+      </div>
     </div>
   );
 }

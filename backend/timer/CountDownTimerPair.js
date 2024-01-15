@@ -44,40 +44,40 @@ class CountDownTimerPair {
               break;
           }
         });
+
+        if (this.#timerWhite.getStart()) {
+          jsonReader(filepath, (err, data) => {
+            data.white = [
+              this.#timerWhite.getMinute(),
+              this.#timerWhite.getSecond(),
+            ];
+            // Write the updated timer status data to the specified file
+            fs.writeFile(filepath, JSON.stringify(data, null, 2), (err) => {
+              // Handle write errors
+              if (err) {
+                console.log(err);
+              }
+            });
+          });
+        }
+
+        if (this.#timerBlack.getStart()) {
+          jsonReader(filepath, (err, data) => {
+            data.black = [
+              this.#timerBlack.getMinute(),
+              this.#timerBlack.getSecond(),
+            ];
+            // Write the updated timer status data to the specified file
+            fs.writeFile(filepath, JSON.stringify(data, null, 2), (err) => {
+              // Handle write errors
+              if (err) {
+                console.log(err);
+              }
+            });
+          });
+        }
       } catch (err) {
         console.log(err);
-      }
-
-      if (this.#timerWhite.getStart()) {
-        jsonReader(filepath, (err, data) => {
-          data.white = [
-            this.#timerWhite.getMinute(),
-            this.#timerWhite.getSecond(),
-          ];
-          // Write the updated timer status data to the specified file
-          fs.writeFile(filepath, JSON.stringify(data, null, 2), (err) => {
-            // Handle write errors
-            if (err) {
-              console.log(err);
-            }
-          });
-        });
-      }
-
-      if (this.#timerBlack.getStart()) {
-        jsonReader(filepath, (err, data) => {
-          data.black = [
-            this.#timerBlack.getMinute(),
-            this.#timerBlack.getSecond(),
-          ];
-          // Write the updated timer status data to the specified file
-          fs.writeFile(filepath, JSON.stringify(data, null, 2), (err) => {
-            // Handle write errors
-            if (err) {
-              console.log(err);
-            }
-          });
-        });
       }
     }, 1000);
   }
