@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import variable as vrb
 
-
+#find intersection of 2 line
 def intersect(a,b,c,d):    
     # standard form line eq Line_AB
     a1 = b[1]-a[1]
@@ -17,10 +17,8 @@ def intersect(a,b,c,d):
     y = (a1*c2 - a2*c1)/determinant
     return x,y
 
-def locate_Corner():
-    img = cv2.imread('board_detect.jpg')
-    gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-    ret, corners = cv2.findChessboardCorners(gray, (3,7),None)
+#extract corner coordinate and record into array
+def locate_Corner(ret, corners):
     a = np.ravel(corners)
     x = 0
     for i in range(7):

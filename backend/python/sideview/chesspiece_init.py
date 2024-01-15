@@ -1,11 +1,12 @@
 import variable as vrb
 import chess
 
-
+#use chess library and initialize the virtual board(use to check valid move,generate fen and san string)
 def board_init():
     board = chess.Board()
     return board
 
+#cell name initialize and save in corresponding array
 def cell_name():
     for i in range(8):
         match i:
@@ -51,6 +52,7 @@ def transform():
             vrb.cell_init[7 - j][i] = vrb.cell[i][j].copy()
             vrb.cell_temp[i][j] = vrb.cell[i][j].copy()
 
+#array initialization, mimicing the visual board, use for data mapping
 def init_loc():
     vrb.cell_init[0][0][9],vrb.cell_init[0][0][11],vrb.cell_init[0][0][12] = True,'r','black'
     vrb.cell_init[0][1][9],vrb.cell_init[0][1][11],vrb.cell_init[0][1][12] = True,'n','black'
