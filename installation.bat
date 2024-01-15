@@ -19,13 +19,8 @@ if %errorlevel% neq 0 (
 )
 
 rem Store the original working directory
-set "original_directory=%cd%"
+set "target_directory=%~dp0\backend\python\sideview"
 
-rem Relative directory to change into
-set "relative_directory=\backend\python\sideview"
-
-rem Construct the full path to the target directory
-set "target_directory=%original_directory%%relative_directory%"
 
 rem Check if the target directory exists
 if not exist "%target_directory%" (
@@ -56,7 +51,7 @@ if exist "%target_directory%\yolov5" (
 )
 
 rem Copy requirements.txt from a directory into the yolov5 folder
-copy "%cd%\backend\python\requirements.txt" "%target_directory%\yolov5\requirements.txt" /Y
+copy "%target_directory%\requirements.txt" "%target_directory%\yolov5\requirements.txt" /Y
 
 echo requirements.txt copied successfully.
 
@@ -74,7 +69,7 @@ if %errorlevel% neq 0 (
 echo Python dependencies installed successfully.
 
 rem Change into the sideview directory
-cd /d "%target_directory%\sideview"
+cd /d "%target_directory%"
 
 rem Create a Python virtual environment
 python -m venv venv
@@ -97,7 +92,7 @@ if %errorlevel% neq 0 (
 echo Virtual environment activated.
 
 rem Specify the path for requirements2.txt
-set requirements2_path=%cd%\backend\python\sideview\requirements2.txt
+set "requirements2_path=%cd%\requirements2.txt"
 
 rem Install additional Python dependencies from requirements2.txt using pip
 pip install -r "%requirements2_path%"
