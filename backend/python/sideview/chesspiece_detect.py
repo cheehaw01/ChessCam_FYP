@@ -7,6 +7,7 @@ import file_data_module as fdm
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
 
+#determine the middle pont of the bounding box, checking if the box is on the left or right side of the chessboard.
 def middle(p1,p2,p3):
     val = ((p2[0] - p1[0])*(p3[1] - p1[1]) - (p2[1] - p1[1])*(p3[0] - p1[0]))
     thresh = 1e-9
@@ -15,6 +16,7 @@ def middle(p1,p2,p3):
     elif val <= -thresh:
         return "right"
 
+#extract yolov5 class and convert into more appealing format
 def chesspiece(code):
     match code:
         case 1:
@@ -43,6 +45,7 @@ def chesspiece(code):
             value = 'R'
     return value
 
+#convert yolov5 class and determine its colour
 def colour(code):
     if code in (1, 2, 3, 4, 5, 6):
         value = 'black'
@@ -50,6 +53,7 @@ def colour(code):
         value = 'white'
     return value
 
+#initialize array and variable, prepare for next turn
 def initialize():
     for i in range(8):
         for j in range(8):
@@ -63,6 +67,7 @@ def initialize():
     vrb.v_move_clist.clear()
     vrb.v_move_dlist.clear()
 
+#input result from yolov5 detection, map the detected piece into their corresponding slot of array
 def chess_yolo_detect(result):
     for i in range(len(result)):
         mid_point = [(result[i][0] + result[i][2])/2 , (result[i][1] + result[i][3])/2]
@@ -95,16 +100,21 @@ def chess_yolo_detect(result):
                         vrb.cell_temp[j][k][10] = float(result[i][4])
                         vrb.cell_temp[j][k][11] = chesspiece(result[i][5])
                         vrb.cell_temp[j][k][12] = colour(result[i][5])
-    whitecount = 0
-    blackcount = 0
+
+#use to determine if side of video taking(black/white at left or at right)
+def side_determine():
+    vrb.whitecount = 0
+    vrb.blackcount = 0
     for i in range(8):
         for j in range(2):
             if vrb.cell_temp[i][j][12] == 'white':
-                whitecount = whitecount + 1
+                vrb.whitecount = vrb.whitecount + 1
             else:
-                blackcount = blackcount + 1
-    
-    if whitecount > blackcount:
+                vrb.blackcount = vrb.blackcount + 1
+
+#after decide the side, transform into desirable location   
+def side_transform():    
+    if vrb.whitecount > vrb.blackcount:
         vrb.cell = vrb.cell_temp.copy()
     else:
         for i in range(8):
@@ -113,13 +123,14 @@ def chess_yolo_detect(result):
                 vrb.cell[i][j][10] = vrb.cell_temp[7-i][7-j][10]
                 vrb.cell[i][j][11] = vrb.cell_temp[7-i][7-j][11]
                 vrb.cell[i][j][12] = vrb.cell_temp[7-i][7-j][12]
-                
 
+#final transform into exacly the same as the previous cell for comparison(movement detection)
 def transform():
     for i in range(8):
         for j in range(8):
                 vrb.cell_trans[7 -j][i] = vrb.cell[i][j].copy()
 
+#check for castling
 def black_castle():
     if vrb.board.has_queenside_castling_rights(chess.BLACK):
         if vrb.cell_prev[0][0][9] == True and vrb.cell_prev[0][4][9] == True:
@@ -179,6 +190,7 @@ def white_castle():
                         return True
     return False
 
+#check the movement through comparison of array obtain, save the move into an array if it is a valid move
 def check_move():
     if vrb.board.turn:
         color = 'white'
@@ -253,10 +265,10 @@ def check_move():
             else:
                 continue
 
+#if the movement detection is wrong, user will click the wrong detection button
+#call the function to change the wrong movement detected
 def detect_error():
     fdm.setIllegalMove(True)
-    print ("Hi hi hi")
-    sys.stdout.flush()
     vrb.board.pop()
     vrb.cell_prev = vrb.cell_prev_backup.copy()
     enter = True
@@ -270,7 +282,7 @@ def detect_error():
             vrb.moves = chess.Move.from_uci(vrb.move)
             if vrb.board.is_legal(vrb.moves):
                 part1 = vrb.move[:2]
-                part2 = vrb.move[2:]
+                part2 = vrb.move[2:4]
                 for i in range(8):
                     for j in range(8):
                         if vrb.cell_prev[i][j][8] == part1:
@@ -284,11 +296,13 @@ def detect_error():
                                         vrb.cell_prev[i][j][10] = 0
                                         vrb.cell_prev[i][j][11] = 0
                                         vrb.cell_prev[i][j][12] = 0
+                                        if len(vrb.move) == 5:
+                                            vrb.cell_prev[k][l][11] = (vrb.move)[4:]
                 san_notation = vrb.board.san(vrb.moves)
                 vrb.board.push(vrb.moves)
                 print(vrb.board)
-                fdm.fixLivePosition(vrb.board.fen())
                 fdm.fixLiveMove(vrb.board.fen(),san_notation)
+                fdm.fixLivePosition(vrb.board.fen())
                 enter = False
             else:
                 vrb.move = None

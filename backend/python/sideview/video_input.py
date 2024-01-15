@@ -7,6 +7,8 @@ import os
 sys.path.append(os.getcwd() + "\python")
 import file_data_module as fdm
 
+
+#fuction to read video for chessboard detection, user need to press c button to capture
 def video_read_board(url,string):
     capture = True
     while capture:
@@ -49,6 +51,7 @@ def video_read_board(url,string):
     cv2.destroyAllWindows()
 
 # read video input from cap, capture and return the frame
+# when press timer button, automatically capture current frame
 def video_read(url,string):
     fdm.setTimerButtonInput(False)
     fdm.setCameraStart(True)
