@@ -222,10 +222,70 @@ const deletePlayer = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves all player records from the database and sends a ranking JSON response.
+ *
+ * @async
+ * @function
+ * @name getTopTenPlayers
+ * @param {any} req
+ * @param {any} res
+ * @returns {Promise<any>}
+ */
+const getTopTenPlayers = async (req, res) => {
+  try {
+    // Query the database to retrieve all players
+    const [rows, fields] = await pool.query(`SELECT * FROM player`);
+
+    // Log the retrieved data
+    // console.log(rows);
+
+    // Calculate winning rate
+    const player_win_rate = rows.map((item) => {
+      return {
+        player_id: item.player_id,
+        player_name: item.player_name,
+        win_rate: (item.win_count / (item.win_count + item.lose_count)) * 100,
+      };
+    });
+
+    // sorting function
+    const compareWinRate = (a, b) => {
+      return b.win_rate - a.win_rate;
+    };
+
+    // sort players in descending order
+    const sorted_win_rate = player_win_rate.sort(compareWinRate);
+
+    let topten = sorted_win_rate;
+
+    // take only 10 players if more than 10
+    if (sorted_win_rate.length > 10) {
+      topten = sorted_win_rate.slice(0, 10);
+    }
+
+    // Return a success response with the retrieved data
+    return res.status(200).json({
+      success: 1,
+      data: topten,
+    });
+  } catch (error) {
+    // Log any errors that occurred during the process
+    console.log(error);
+
+    // Return a JSON response indicating a server error
+    return res.status(500).json({
+      success: 0,
+      message: "something has broken",
+    });
+  }
+};
+
 module.exports = {
   getAllPlayers,
   createPlayer,
   getPlayer,
   updatePlayer,
   deletePlayer,
+  getTopTenPlayers,
 };
