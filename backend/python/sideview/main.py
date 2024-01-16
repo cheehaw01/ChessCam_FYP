@@ -64,7 +64,7 @@ while(play):
     result = results.xyxy[0].cpu()
     result = result.numpy()
     result = result.reshape(len(result),6)
-    results.show()
+    #results.show()
     
     cpd.chess_yolo_detect(result)
     if vrb.firstround == True:

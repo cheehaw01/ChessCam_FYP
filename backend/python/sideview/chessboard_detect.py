@@ -28,9 +28,9 @@ def locate_Corner(ret, corners):
                 x = x + 1
     image = cv2.imread('board_detect.jpg')
     initial_board = cv2.drawChessboardCorners(image, (3,7), corners,ret)
-    cv2.imshow('Chessboard Detected',initial_board)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    #cv2.imshow('Chessboard Detected',initial_board)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
     calc_corner()
 
 def calc_corner():
@@ -111,6 +111,6 @@ def calc_corner():
         for j in range(9):
             c = (int(vrb.edge_coor[i][j][0]),int(vrb.edge_coor[i][j][1]))
             corner_detect = cv2.circle(img, c, 2, (0,0,255), -1)
-    cv2.imshow('Chessboard Detected',corner_detect)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    #cv2.imshow('Chessboard Detected',corner_detect)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
