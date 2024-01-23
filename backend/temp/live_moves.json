@@ -1,7 +1,52 @@
 [
   {
     "step": 1,
+    "white": "f4",
+    "black": "e5"
+  },
+  {
+    "step": 2,
+    "white": "Nf3",
+    "black": "Qg5"
+  },
+  {
+    "step": 3,
     "white": "e3",
-    "black": "f5"
+    "black": "Nc6"
+  },
+  {
+    "step": 4,
+    "white": "Bc4",
+    "black": "Bd6"
+  },
+  {
+    "step": 5,
+    "white": "O-O",
+    "black": "b6"
+  },
+  {
+    "step": 6,
+    "white": "Nxg5",
+    "black": "Ba6"
+  },
+  {
+    "step": 7,
+    "white": "fxe5",
+    "black": "O-O-O"
+  },
+  {
+    "step": 8,
+    "white": "exd6",
+    "black": "Nf6"
+  },
+  {
+    "step": 9,
+    "white": "dxc7",
+    "black": "Nb4"
+  },
+  {
+    "step": 10,
+    "white": "cxd8=Q+",
+    "black": ""
   }
 ]

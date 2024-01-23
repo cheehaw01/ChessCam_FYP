@@ -27,47 +27,6 @@ if not exist "%target_directory%" (
     echo Error: The directory '%target_directory%' does not exist.
     exit /b 1
 )
-
-rem Check if yolov5 directory already exists
-if exist "%target_directory%\yolov5" (
-    echo YOLOv5 directory already exists in '%target_directory%'. Skipping clone.
-) else (
-    rem Change into the target directory
-    cd /d "%target_directory%"
-
-    rem GitHub repository URL
-    set repository_url=https://github.com/ultralytics/yolov5
-
-    rem Clone the GitHub repository
-    git clone "%repository_url%"
-
-    rem Check if the cloning was successful
-    if not exist "%target_directory%\yolov5" (
-        echo Error: Cloning failed.
-        exit /b 1
-    )
-
-    echo Repository cloned successfully into '%target_directory%\yolov5'.
-)
-
-rem Copy requirements.txt from a directory into the yolov5 folder
-copy "%target_directory%\requirements.txt" "%target_directory%\yolov5\requirements.txt" /Y
-
-echo requirements.txt copied successfully.
-
-rem Change into the yolov5 directory
-cd /d "%target_directory%\yolov5"
-
-rem Install Python dependencies from requirements.txt using pip
-pip install -r requirements.txt
-
-if %errorlevel% neq 0 (
-    echo Error: Failed to install Python dependencies.
-    exit /b 1
-)
-
-echo Python dependencies installed successfully.
-
 rem Change into the sideview directory
 cd /d "%target_directory%"
 
@@ -105,4 +64,55 @@ if %errorlevel% neq 0 (
 echo Additional Python dependencies from requirements2.txt installed successfully.
 
 echo Python dependencies installed successfully.
+
+rem Check if yolov5 directory already exists
+if exist "%target_directory%\yolov5" (
+    echo YOLOv5 directory already exists in '%target_directory%'. Skipping clone.
+) else (
+    rem Change into the target directory
+    cd /d "%target_directory%"
+
+    rem GitHub repository URL
+    set repository_url=https://github.com/ultralytics/yolov5
+
+    rem Clone the GitHub repository
+    git clone "%repository_url%"
+
+    rem Check if the cloning was successful
+    if not exist "%target_directory%\yolov5" (
+        echo Error: Cloning failed.
+        exit /b 1
+    )
+
+    echo Repository cloned successfully into '%target_directory%\yolov5'.
+)
+
+rem Copy requirements.txt from a directory into the yolov5 folder
+copy "%target_directory%\requirements.txt" "%target_directory%\yolov5\requirements.txt" /Y
+
+echo requirements.txt copied successfully.
+
+rem Check if the source folder exists
+if exist "%target_directory%\runs" (
+    rem Move the folder with overwrite option
+    move /Y "%target_directory%\runs" "%target_directory%\yolov5"
+    echo Folder moved successfully.
+) else (
+    echo Source folder does not exist.
+)
+
+rem Change into the yolov5 directory
+cd /d "%target_directory%\yolov5"
+
+rem Install Python dependencies from requirements.txt using pip
+pip install -r requirements.txt
+
+if %errorlevel% neq 0 (
+    echo Error: Failed to install Python dependencies.
+    exit /b 1
+)
+
+echo Python dependencies installed successfully.
+
+exit
 

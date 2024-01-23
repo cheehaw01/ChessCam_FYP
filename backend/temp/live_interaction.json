@@ -1,4 +1,8 @@
 {
-  "timerButton": false,
+  "promotion": false,
+  "illegalMove": false,
+  "promotionNewPiece": "",
+  "illegalCorrectMove": "",
+  "wrongDetection": false,
   "cameraStart": true
 }
